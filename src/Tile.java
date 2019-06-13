@@ -64,7 +64,16 @@ public class Tile {
 
 
     }
-    public void tileMove(){
+    public void tileMoveUP(){
+        this.positionY += 20;
+    }
+    public void tileMovedown(){
         this.positionY -= 20;
+    }
+    public void tileMoveleft(){
+        this.positionX += 20;
+    }
+    public void tileMoveright(){
+        this.positionX -= 20;
     }
 }

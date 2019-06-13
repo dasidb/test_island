@@ -1,4 +1,5 @@
 import processing.core.PApplet;
+import processing.core.PImage;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,9 @@ public class Game extends PApplet {
     private boolean continueMap = true;
     private ArrayList<Tile> tileRemoveArrayList = new ArrayList<>();
     float[][] testfloat;
+    private PImage WATER_TILE;
+    private PImage GRAS_TILE;
+    private PImage SAND_TILE;
 
     public static void main(String[] args){
         PApplet.main(Game.class, args);
@@ -24,6 +28,7 @@ public class Game extends PApplet {
     @Override
     public void setup(){
         super.setup();
+        tilesImage();
         tileArrayList = new ArrayList<>();
         map = new Map(this, tileArrayList);
         tile = new Tile();
@@ -44,7 +49,9 @@ public class Game extends PApplet {
    @Override
     public void draw(){
        // clear();
-       map.createTiles();
+       if(keyPressed){
+           map.createTiles(key);
+       }
      /*  for(int y = 0 ; y < 40; y++){
            for( int x = 0; x < 800 ; x++){
 
@@ -54,11 +61,18 @@ public class Game extends PApplet {
                System.out.println(testfloat[39][799] + " ende ");
            }
        } */
-       tilesImage();
+
+
        for(Tile tile : tileArrayList){
-           tile.tileMove();
-           image(tile.getpImage(),tile.getPositionX(),tile.getPositionY());
-           if(tile.getPositionY() <0){
+          // tile.tileMove();
+           PImage useImage = GRAS_TILE;
+           if (tile instanceof SandTile) {
+               useImage = SAND_TILE;
+           } else if (tile instanceof WaterTile) {
+               useImage = WATER_TILE;
+           }
+           image(useImage,tile.getPositionX(),tile.getPositionY());
+           if(tile.getPositionY() >800){
                // System.out.println(tile.getPositionY() +"posi Y");
                tileRemoveArrayList.add(tile);
               // System.out.println(tileRemoveArrayList.size());
@@ -72,31 +86,36 @@ public class Game extends PApplet {
 
     }
     public void removeTile(){
-        System.out.println(tileArrayList.size() + " davor");
+     //   System.out.println(tileArrayList.size() + " davor");
 
         for(Tile tile : tileRemoveArrayList){
             tileArrayList.remove(tile);
 
         }
-        System.out.println(tileArrayList.size() + " danach");
+     //   System.out.println(tileArrayList.size() + " danach");
 
         tileRemoveArrayList= new ArrayList<>();
     }
 
     public void tilesImage(){
-        for(Tile tile : tileArrayList){
-            tile.setpImage(loadImage(tile.getImageLink()));
-
-        }
+        WATER_TILE = loadImage("Ressources/waterTile.png");
+        GRAS_TILE = loadImage("Ressources/grassTile.png");
+        SAND_TILE = loadImage("Ressources/sandTile.png");
 
     }
     public void keyPressed(){
         if(keyPressed){
             if(key == 'w'){
-                continueMap = true;
+                tile.tileMoveUP();
             }
             if(key == 's'){
-                continueMap = false;
+                tile.tileMovedown();
+            }
+            if(key == 'a'){
+                tile.tileMoveleft();
+            }
+            if(key == 'd'){
+                tile.tileMoveright();
             }
         }
 
