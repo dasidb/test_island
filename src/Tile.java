@@ -66,6 +66,8 @@ public class Tile {
     }
     public void tileMoveUP(){
         this.positionY += 20;
+
+
     }
     public void tileMovedown(){
         this.positionY -= 20;

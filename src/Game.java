@@ -14,6 +14,12 @@ public class Game extends PApplet {
     private PImage WATER_TILE;
     private PImage GRAS_TILE;
     private PImage SAND_TILE;
+    private int canMove = 0;
+    boolean canMoveUp;
+    boolean canMoveDown;
+    boolean canMoveLeft;
+    boolean canMoveRight;
+
 
     public static void main(String[] args){
         PApplet.main(Game.class, args);
@@ -29,6 +35,7 @@ public class Game extends PApplet {
     public void setup(){
         super.setup();
         tilesImage();
+
         tileArrayList = new ArrayList<>();
         map = new Map(this, tileArrayList);
         tile = new Tile();
@@ -48,9 +55,14 @@ public class Game extends PApplet {
     }
    @Override
     public void draw(){
-       // clear();
-       if(keyPressed){
+        clear();
+       if(keyPressed && canMove >29){
            map.createTiles(key);
+           canMove = 30;
+           if(canMove > 29){
+           moveTile();
+           }
+        System.out.println("create durchlaufen");
        }
      /*  for(int y = 0 ; y < 40; y++){
            for( int x = 0; x < 800 ; x++){
@@ -79,11 +91,37 @@ public class Game extends PApplet {
 
            }
 
-
+        //System.out.println("display methode durchlaufen");
        }
        removeTile();
+       if(canMove <30) {
+           canMove += 1;
+       }
+    }
 
+    public void moveTile(){
+        if(canMoveUp) {
+            for (Tile tile : tileArrayList) {
+                tile.tileMoveUP();
+            }
 
+        }
+        if(canMoveDown) {
+            for (Tile tile : tileArrayList) {
+                tile.tileMovedown();
+            }
+
+        } if(canMoveLeft) {
+            for (Tile tile : tileArrayList) {
+                tile.tileMoveleft();
+            }
+
+        } if(canMoveRight) {
+            for (Tile tile : tileArrayList) {
+                tile.tileMoveright();
+            }
+
+        }
     }
     public void removeTile(){
      //   System.out.println(tileArrayList.size() + " davor");
@@ -104,20 +142,40 @@ public class Game extends PApplet {
 
     }
     public void keyPressed(){
-        if(keyPressed){
-            if(key == 'w'){
-                tile.tileMoveUP();
+        if(keyPressed && canMove >29){
+            if(key == 'w') {
+                canMoveUp = true;
+         /*       for (Tile tile : tileArrayList) {
+                    //tileArrayList.remove(tile);
+                    tile.tileMoveUP();
+
+                } */
+                System.out.println("move durchlaufen");
             }
-            if(key == 's'){
-                tile.tileMovedown();
+            if(key == 's') {
+               canMoveDown = true;
             }
             if(key == 'a'){
-                tile.tileMoveleft();
+                canMoveLeft = true;
             }
             if(key == 'd'){
-                tile.tileMoveright();
+               canMoveRight = true;
             }
         }
 
+    }
+    public void keyReleased(){
+        if(key == 'w'){
+            canMoveUp = false;
+        }
+        if(key == 's') {
+            canMoveDown = false;
+        }
+        if(key == 'a'){
+            canMoveLeft = false;
+        }
+        if(key == 'd'){
+            canMoveRight = false;
+        }
     }
 }

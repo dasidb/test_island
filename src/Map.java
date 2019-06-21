@@ -14,6 +14,8 @@ public class Map {
     float mx;
     float my;
     float e;
+    int pushedY;
+    int pushedX;
 
     int positionX = 0;
     int positionY = 0;
@@ -109,51 +111,91 @@ public class Map {
     public void createTiles(char key) {
 
         flying += 0.02F;
-       // my = flying;
+        // my = flying;
         if (key == 'w') {
             positionY += 1;
+            pushedY=1;
+            pushedX = 40;
+            System.out.println("pushed W");
         } else if (key == 's') {
             positionY -= 1;
         } else if (key == 'a') {
             positionX -= 1;
+            pushedY=40;
+            pushedX = 1;
         } else if (key == 'd') {
             positionX += 1;
+            pushedY=40;
+            pushedX = 1;
         }
         testY = -40;
-        int xStartPoint = (positionX * 40);
-        for(int y = positionY; y < positionY + 1; y++) {
+        // TODO: 18.06.2019 ggf die schleife anpassen so das ich x + 1 habe und dieses auch bei mx my abziehe
+        int xStartPoint = (positionX + 40);
+        //  for(int y = positionY; y < positionY + 1; y++) {
+
+        for (int y = 0; y < pushedY; y++) {
             //    float mx = 0;
-            testY = 20;
-            testX = -20;
-            for (int x = xStartPoint; x < xStartPoint + 40; x++ ){
+            if(pushedY == 1) {
+                testY = -20;
+                testX = -20;
+            }else{
+                testY +=20;
+                testX = 0;
+            }
+
+            for (int x = xStartPoint; x < xStartPoint + pushedX ; x++) {
                 mx = 0;
-               testX = 20;
+                testX += 20;
+
+            /*    for (int y = 0; y < 1; y++) {
+                    //    float mx = 0;
+                    testY = 0;
+                    testX = -20;
+                    for (int x = xStartPoint; x < xStartPoint + 40; x++) {
+                        mx = 0;
+                        testX += 20;
+                        */
 
 
                 int value = 2;
+if(pushedX == 40) {
 
-                 mx = (float) x /40F + positionX /100 ; //+ 0.4F;
+    mx = (float) x / 40F; // + (float) xStartPoint/40; //+ positionX /100 ; //+ 0.4F;
 
-                 my = (float) y / 1F + positionY/ 100F;//+ 0.4F + flying;
-              //  System.out.println(mx +" mx \n" + my +" my");
+    my = (float) y / 1F + (float) positionY / 40;// + positionY/ 100F;// + positionY/100F;//+ 0.4F + flying;
+
+    }
+
+    if(pushedX == 1){
+
+        mx = (float) x / 40 ; //(float) xStartPoint + positionX /50; /// 40;; // + (float) xStartPoint/40; //+ positionX /100 ; //+ 0.4F;
+
+     my = (float) y / 40F; //+ (float) positionY / 40;// + positionY/ 100F;// + positionY/100F;//+ 0.4F + flying;
+
+    }
+                //System.out.println(mx + " mx \n" + my + " my");
+
 
                 //  testFloat[y][x] = map(noise((mx *  value), noise(my * value)),0,1,-100,100);
                 //testFloat[y][x] = (noise((mx *  value),(my * value))
-              //  e = Game.map(pApplet.noise((mx * value), (my * value))
+                //  e = Game.map(pApplet.noise((mx * value), (my * value))
 
-               // e = Game.map(pApplet.noise((mx * value), (my * value)
-                 //          + 0.5F * pApplet.noise(2 * mx, 2 * my)
-                   //      + 0.25F * pApplet.noise(3* mx, 3 * my)
+                // e = Game.map(pApplet.noise((mx * value), (my * value)
+                //          + 0.5F * pApplet.noise(2 * mx, 2 * my)
+                //      + 0.25F * pApplet.noise(3* mx, 3 * my)
                 // ),0F,1F,0F,100F);
 
-              e = pApplet.noise((mx * value), (my * value))
-                       + 0.5F * pApplet.noise(2 * mx, 2 * my)
-                        + 0.25F * pApplet.noise(27 * mx, 27 * my);
+                e = pApplet.noise((mx * value), (my * value))
+                        + 0.5F * pApplet.noise(2 * mx, 2 * my)
+                        + 0.25F * pApplet.noise(3 * mx, 3 * my);
 
-                testFloat[y][x] = (float) Math.pow((e), 2.43F);
-              //  System.out.println(e + " eeeeeeee");
-             //   System.out.println(testFloat[y][x] + " floaaaaaat");
-                if(IS_DIAGRAMM) {
+                testFloat[y][x] = (float) Math.pow((e), 4.43F);
+                if(x == 1){
+                    System.out.println(e);
+                }
+                //  System.out.println(e + " eeeeeeee");
+                //   System.out.println(testFloat[y][x] + " floaaaaaat");
+                if (IS_DIAGRAMM) {
                     if (e < 0.5) {
                         pApplet.stroke(39, 50, 90);
                         pApplet.line(x, y, x, (e + 1) * 100);
@@ -166,37 +208,58 @@ public class Map {
                         pApplet.line(x, y, x, (e + 1) * 100);
 
                     }
-                }else{
+                } else {
 
-              //  pApplet.line(x,y,x,e);
-                //pApplet.line(x,y,x,testFloat[y][x]);
-               //pApplet.line(testFloat[y][x],testFloat[y][x],testFloat[y][x],testFloat[y][x]);
-            //    pApplet.line(e,e,e+15,e+15);
-                //pApplet.line(10,10,10,50);
+                    //  pApplet.line(x,y,x,e);
+                    //pApplet.line(x,y,x,testFloat[y][x]);
+                    //pApplet.line(testFloat[y][x],testFloat[y][x],testFloat[y][x],testFloat[y][x]);
+                    //    pApplet.line(e,e,e+15,e+15);
+                    //pApplet.line(10,10,10,50);
 
 
-             //   pApplet.stroke(120);
-              //      System.out.println(e);
-                if (e < 0.76) {
-                   // System.out.println("wasser");
-                    tileArrayList.add(new WaterTile(testX, (testY  )));
-                  //  tileArrayList.add(new WaterTile(testX, my));
+                    //   pApplet.stroke(120);
+                    //      System.out.println(e);
+                    if (e < 0.76) {
+                        // System.out.println("wasser");
+                        if (key == 'w' || key == 's') {
+                            System.out.println(testY);
+                            tileArrayList.add(new WaterTile(testX, (testY)));
+                        } else if(key == 'a') {
+                            tileArrayList.add(new WaterTile(testX, (testY )));
+                        }else if(key == 'd') {
+                            tileArrayList.add(new WaterTile(testX+ 780, (testY )));
+                        }
+                        //  tileArrayList.add(new WaterTile(testX, my));
 
-                   // System.out.println("wasser");
-                } else if(e < 0.8) {
+                        // System.out.println("wasser");
+                    } else if (e < 0.8) {
 
-                   // System.out.println("kein ");
-                   tileArrayList.add(new SandTile(testX, (testY  )));
-                 //   tileArrayList.add(new SandTile(testX, my));
-                }else{
-                  tileArrayList.add(new GrassTile(testX, (testY  )));
-                   // tileArrayList.add(new GrassTile(testX, my));
+                        // System.out.println("kein ");
+                        if (key == 'w' || key == 's') {
+                            tileArrayList.add(new SandTile(testX, (testY)));
+                        } else if(key == 'a') {
+                            tileArrayList.add(new SandTile(testX, (testY )));
+                            //   tileArrayList.add(new SandTile(testX, my));
+                        }else if(key == 'd') {
+                            tileArrayList.add(new SandTile(testX+ 780, (testY )));
+                        }
+                    } else {
+                        if (key == 'w' || key == 's') {
+
+                            tileArrayList.add(new GrassTile(testX, (testY)));
+                            // tileArrayList.add(new GrassTile(testX, my));
+                        } else if(key == 'a'){
+                            tileArrayList.add(new GrassTile(testX, (testY )));
+                        }
+                        else if(key == 'd') {
+                            tileArrayList.add(new GrassTile(testX+ 780, (testY )));
+                        }
+                        }
+                    }
                 }
             }
-        }
-        }
 
-            }
+        }
 
 
 

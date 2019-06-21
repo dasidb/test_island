@@ -1,12 +1,13 @@
 import processing.core.PImage;
 
 public class GrassTile extends Tile {
-   // private String imageLink = "Ressources/grassTile.png";
+    // private String imageLink = "Ressources/grassTile.png";
 
-    public GrassTile(float positionX, float positionY){
+    public GrassTile(float positionX, float positionY) {
 
-        super(positionX,positionY);
+        super(positionX, positionY);
         this.setImageLink("Ressources/grassTile.png");
+
 
     }
 }
