@@ -16,11 +16,30 @@ public class Map {
     float e;
     int pushedY;
     int pushedX;
+    float cordX = 800;
+    float cordY = 800;
 
     int positionX = 0;
     int positionY = 0;
 
     private final boolean IS_DIAGRAMM = false;
+
+
+    public float getCordX() {
+        return cordX;
+    }
+
+    public void setCordX(float cordX) {
+        this.cordX = cordX;
+    }
+
+    public float getCordY() {
+        return cordY;
+    }
+
+    public void setCordY(float cordY) {
+        this.cordY = cordY;
+    }
 
     public Map(PApplet pApplet, ArrayList<Tile> tileArrayList){
         this.pApplet = pApplet;
@@ -291,6 +310,37 @@ if(pushedX == 40) {
                         pApplet.image(tile.getpImage(), tile.getPositionX(), tile.getPositionY());
                     }
                 }
+
+                public ArrayList<Tile> createTiles2(){
+                tileArrayList = new ArrayList<>();
+                    for(int x = 0; x < 40; x++){
+                        for(int y = 0; y < 40; y++){
+                            float noisescale = 0.02F;
+                            float noiseInputX = cordX + x / 40F; //* noisescale ;
+                            float noiseInputY = cordY + y / 40F; //*noisescale ;
+                           float noise = pApplet.noise((noiseInputX * 2), (noiseInputY * 2))
+                                    + 0.5F * pApplet.noise(2 * noiseInputX, 2 * noiseInputY)
+                                    + 0.25F * pApplet.noise(3 * noiseInputX, 3 * noiseInputY);
+                            //noise= (float) Math.pow((noise), 0.9F);
+                            //float noise = pApplet.noise(noiseInputX , noiseInputY );
+                            System.out.println(cordX +"\n" + " cordY" + cordY);
+                            System.out.println(noise + "das ist noise");
+                            if(noise < 0.76 ){
+                                tileArrayList.add(new WaterTile(x*20,y*20));
+
+                            }else if(noise < 0.8){
+
+                                    tileArrayList.add(new SandTile(x*20,y*20));
+                            }else{
+
+                                        tileArrayList.add(new GrassTile(x*20,y*20));
+                            }
+
+                        }
+                    }
+                    return tileArrayList;
+                }
+
 
             }
 

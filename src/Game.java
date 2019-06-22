@@ -55,13 +55,15 @@ public class Game extends PApplet {
     }
    @Override
     public void draw(){
-        clear();
-       if(keyPressed && canMove >29){
-           map.createTiles(key);
-           canMove = 30;
+       // clear();
+
            if(canMove > 29){
            moveTile();
            }
+       if(keyPressed && canMove >29){
+           //  map.createTiles(key);
+           tileArrayList = map.createTiles2();
+           canMove = 30;
         System.out.println("create durchlaufen");
        }
      /*  for(int y = 0 ; y < 40; y++){
@@ -101,25 +103,21 @@ public class Game extends PApplet {
 
     public void moveTile(){
         if(canMoveUp) {
-            for (Tile tile : tileArrayList) {
-                tile.tileMoveUP();
+
+                //tile.tileMoveUP();
+                map.setCordY(map.getCordY() -0.025F);
             }
 
-        }
+
         if(canMoveDown) {
-            for (Tile tile : tileArrayList) {
-                tile.tileMovedown();
-            }
+
+                map.setCordY(map.getCordY() +0.025F);
+
 
         } if(canMoveLeft) {
-            for (Tile tile : tileArrayList) {
-                tile.tileMoveleft();
-            }
-
+        map.setCordX(map.getCordX() -0.025F);
         } if(canMoveRight) {
-            for (Tile tile : tileArrayList) {
-                tile.tileMoveright();
-            }
+            map.setCordX(map.getCordX() +0.025F);
 
         }
     }
@@ -150,7 +148,7 @@ public class Game extends PApplet {
                     tile.tileMoveUP();
 
                 } */
-                System.out.println("move durchlaufen");
+               // System.out.println("move durchlaufen");
             }
             if(key == 's') {
                canMoveDown = true;
