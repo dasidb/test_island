@@ -7,6 +7,33 @@ public class Charakter {
     private String name;
     private int health;
     private float velocity;
+    private boolean isSand;
+    private boolean isGrass;
+    private boolean isWater;
+
+    public boolean isSand() {
+        return isSand;
+    }
+
+    public void setSand(boolean sand) {
+        isSand = sand;
+    }
+
+    public boolean isGrass() {
+        return isGrass;
+    }
+
+    public void setGrass(boolean grass) {
+        isGrass = grass;
+    }
+
+    public boolean isWater() {
+        return isWater;
+    }
+
+    public void setWater(boolean water) {
+        isWater = water;
+    }
 
     public PImage getCharakterImage() {
         return charakterImage;
@@ -46,6 +73,10 @@ public class Charakter {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public Charakter(){
+
     }
 
 

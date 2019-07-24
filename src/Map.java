@@ -1,5 +1,6 @@
 import processing.core.PApplet;
 
+import java.math.BigDecimal;
 import java.security.Key;
 import java.util.ArrayList;
 
@@ -16,11 +17,17 @@ public class Map {
     float e;
     int pushedY;
     int pushedX;
-    float cordX = 800;
-    float cordY = 800;
+    float cordX = 800F;
+    float cordY = 800F;
+    Buildable buildable;
+
+
 
     int positionX = 0;
     int positionY = 0;
+    ArrayList<ArrayList<Float>> cordsArrayList = new ArrayList<>();
+    ArrayList<Float> cordXList = new ArrayList<>();
+    ArrayList<Float> cordYList = new ArrayList<>();
 
     private final boolean IS_DIAGRAMM = false;
 
@@ -41,9 +48,13 @@ public class Map {
         this.cordY = cordY;
     }
 
+
+
     public Map(PApplet pApplet, ArrayList<Tile> tileArrayList){
         this.pApplet = pApplet;
         this.tileArrayList = tileArrayList;
+        cordsArrayList.add(cordXList);
+        cordsArrayList.add(cordYList);
 
     }
 
@@ -135,7 +146,7 @@ public class Map {
             positionY += 1;
             pushedY=1;
             pushedX = 40;
-            System.out.println("pushed W");
+
         } else if (key == 's') {
             positionY -= 1;
         } else if (key == 'a') {
@@ -210,7 +221,7 @@ if(pushedX == 40) {
 
                 testFloat[y][x] = (float) Math.pow((e), 4.43F);
                 if(x == 1){
-                    System.out.println(e);
+                   // System.out.println(e);
                 }
                 //  System.out.println(e + " eeeeeeee");
                 //   System.out.println(testFloat[y][x] + " floaaaaaat");
@@ -241,7 +252,7 @@ if(pushedX == 40) {
                     if (e < 0.76) {
                         // System.out.println("wasser");
                         if (key == 'w' || key == 's') {
-                            System.out.println(testY);
+                          //  System.out.println(testY);
                             tileArrayList.add(new WaterTile(testX, (testY)));
                         } else if(key == 'a') {
                             tileArrayList.add(new WaterTile(testX, (testY )));
@@ -312,29 +323,43 @@ if(pushedX == 40) {
                 }
 
                 public ArrayList<Tile> createTiles2() {
+
                     tileArrayList = new ArrayList<>();
+                  //  System.out.println(tileArrayList.size() + "array size");
                     for (int x = 0; x < 40; x++) {
-                        for (int y = 0; y < 40; y++) {
-                            float noisescale = 0.02F;
-                            float noiseInputX = cordX + x / 40F; //* noisescale ;
-                            float noiseInputY = cordY + y / 40F; //*noisescale ;
-                            float noise = pApplet.noise((noiseInputX * 2), (noiseInputY * 2))
-                                    + 0.5F * pApplet.noise(2 * noiseInputX, 2 * noiseInputY)
-                                    + 0.25F * pApplet.noise(3 * noiseInputX, 3 * noiseInputY);
-                            //noise= (float) Math.pow((noise), 0.9F);
-                            //float noise = pApplet.noise(noiseInputX , noiseInputY );
-                            System.out.println(cordX + "\n" + " cordY" + cordY);
-                            System.out.println(noise + "das ist noise");
-                            if (noise < 0.76F) {
-                                tileArrayList.add(new WaterTile(x * 20, y * 20));
+                       // for (int y = 0; y < 40; y++) {
+                            for (int y = 0; y < 40; y++) {
+                                float noisescale = 0.02F;
+                                // TODO: 22.07.2019  ggf fehler hier big
+                                float noiseInputX = cordX + (float) x / 40F; //*noisescale ;
+                                float noiseInputY = cordY + (float) y / 40F; //*noisescale ;
+                                float noise = pApplet.noise((noiseInputX * 2F), (noiseInputY * 2F))
+                                        + 0.5F * pApplet.noise(2F * noiseInputX, 2F * noiseInputY)
+                                        + 0.25F * pApplet.noise(3F * noiseInputX, 3F * noiseInputY);
+                                noise= (float) Math.pow((noise), 0.9F);
+                                //float noise = pApplet.noise(noiseInputX , noiseInputY );
 
-                            } else if (noise < 0.8F) {
+                                // System.out.println(cordX + " =cord x "+ x + "=x");
+                                //System.out.println(cordY + " =cord y " + y +"=y");
+                                //     if(!cordXList.contains(cordX+x) && !cordYList.contains(cordY+y)) {
+                            //    System.out.println("das ist cord x" + cordX + "\n" + "das ist x " + x);
+                                if (noise < 0.76F) {
+                                    tileArrayList.add(new WaterTile(x * 20F, y * 20F, cordX+x, cordY+y));
 
-                                tileArrayList.add(new SandTile(x * 20, y * 20));
-                            } else {
 
-                                tileArrayList.add(new GrassTile(x * 20, y * 20));
-                            }
+                                } else if (noise < 0.8F) {
+
+                                    tileArrayList.add(new SandTile(x * 20F, y * 20F, cordX+x, cordY+y));
+                                } else {
+
+                                    tileArrayList.add(new GrassTile(x * 20F, y * 20F, cordX+x, cordY+y));
+                                }
+
+
+                       //     }
+
+                                cordXList.add(cordX+x);
+                                cordYList.add(cordY+y);
 
                         }
 
@@ -344,6 +369,7 @@ if(pushedX == 40) {
                 }
 
                 }
+
 
 
 
