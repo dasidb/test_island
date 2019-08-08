@@ -331,13 +331,15 @@ if(pushedX == 40) {
                             for (int y = 0; y < 40; y++) {
                                 float noisescale = 0.02F;
                                 // TODO: 22.07.2019  ggf fehler hier big
-                                float noiseInputX = cordX + (float) x / 40F; //*noisescale ;
-                                float noiseInputY = cordY + (float) y / 40F; //*noisescale ;
+                                float noiseInputX = (cordX + (float) x / 40F) ; //*noisescale ;
+                                float noiseInputY = (cordY + (float) y / 40F) ; //*noisescale ;
                                 float noise = pApplet.noise((noiseInputX * 2F), (noiseInputY * 2F))
                                         + 0.5F * pApplet.noise(2F * noiseInputX, 2F * noiseInputY)
                                         + 0.25F * pApplet.noise(3F * noiseInputX, 3F * noiseInputY);
-                                noise= (float) Math.pow((noise), 0.9F);
+                               // noise= (float) Math.pow((noise), 0.9F);
                                 //float noise = pApplet.noise(noiseInputX , noiseInputY );
+
+
 
                                 // System.out.println(cordX + " =cord x "+ x + "=x");
                                 //System.out.println(cordY + " =cord y " + y +"=y");

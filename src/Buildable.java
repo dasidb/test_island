@@ -5,13 +5,23 @@ import java.util.ArrayList;
 
 public class Buildable {
 
-    PImage image;
-    float cordX;
-    float cordY;
-    boolean isPlacable;
-    Map map;
-    Charakter charakter;
-    ArrayList<Buildable> buildableArrayList;
+    private PImage image;
+   private float cordX;
+    private float cordY;
+    private boolean isPlacable;
+    private Map map;
+    private Charakter charakter;
+    private ArrayList<Buildable> buildableArrayList = new ArrayList<>();
+
+
+    public Charakter getCharakter() {
+        return charakter;
+    }
+
+    public void setCharakter(Charakter charakter) {
+        this.charakter = charakter;
+    }
+
     public PImage getImage() {
         return image;
     }
@@ -51,11 +61,28 @@ public class Buildable {
         this.map = map;
         this.charakter = charakter;
         this.buildableArrayList = buildableArrayList;
+        System.out.println(charakter + " im buildable construktor");
+
+    }
+
+    public Buildable(float cordX, float cordY){
+        this.cordX = cordX;
+        this.cordY = cordY;
+    }
+    public Buildable(float cordX, float cordY, PImage image){
+        this.cordX = cordX;
+        this.cordY = cordY;
+        this.image = image;
     }
 
     public void create(int counter){
         if(counter == 1){
-            buildableArrayList.add(new House(charakter.getPosiX(),charakter.getPosiY() -40));
+            System.out.println(charakter);
+           System.out.println(buildableArrayList.size());
+            System.out.println(charakter.getPosiX());
+           System.out.println(charakter.getPosiY());
+
+           // buildableArrayList.add(new House(charakter.getPosiX(),charakter.getPosiY() -40));
         }
 
     }

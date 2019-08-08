@@ -5,6 +5,7 @@ import processing.core.PImage;
 import java.util.ArrayList;
 
 public class Game extends PApplet {
+    int zähler = 50;
     private Map map;
     private Tile tile;
     private Tile tileTest;
@@ -26,6 +27,10 @@ public class Game extends PApplet {
     Buildable buildable;
     ArrayList<Buildable> buildableArrayList = new ArrayList<>();
     PGraphics pg;
+    private float absoluteCordsX;
+    private float getAbsoluteCordsY;
+    // TODO: 08.08.2019 absoulute cords einbauen diese ummünzen für die up down bewegung das anpassen an die buildables
+
 
 
 
@@ -48,9 +53,15 @@ public class Game extends PApplet {
         tileArrayList = new ArrayList<>();
         map = new Map(this, tileArrayList);
         tile = new Tile();
+        System.out.println(charakter+ "vor erstellung");
         charakter= new Charakter();
+        charakter.setPosiY(20);
+        charakter.setPosiX(20);
+        System.out.println(charakter);
+        HOUSE_IMAGE = loadImage("ressources/house.png");
         tileTest = new GrassTile(20,20);
         buildable = new Buildable(map,charakter, buildableArrayList);
+
 
         pg = createGraphics(800,800);
 
@@ -121,18 +132,40 @@ public class Game extends PApplet {
        }
        image(HERO_IMAGE, width / 2, height / 2);
 
-       // TODO: 24.07.2019 klappt nicht bild bleibt stehen 
+       // TODO: 24.07.2019 klappt nicht bild bleibt stehen
+       // TODO: 01.08.2019 buildable wird überschrieben muss in arraylist üverführt werden ZONK 
        // if(!buildableArrayList.isEmpty()) {
-            pg.beginDraw();
-            buildable = new House(5,5);
-            buildable.setImage(HOUSE_IMAGE);
+           // pg.beginDraw();
+
+       for(Buildable buildable : buildableArrayList){
+
+     //      pg.clear();
+       //    pg.image(buildable.getImage(),buildable.getCordX() + zähler ,buildable.getCordY() + zähler);
+       //    pg.endDraw();
+           image(pg,buildable.getCordX(),buildable.getCordY());
+
+       }
+
+
+           // pg.endDraw();
+
+
+
+          //  buildableArrayList.add(new House(HOUSE_IMAGE,300,5));
+
+
+
+
+           // buildable = new House(5,5);
+           // buildable.setImage(HOUSE_IMAGE);
       //  pg.background(0, 100);
-            pg.image(HOUSE_IMAGE, charakter.getPosiX(), charakter.getPosiY());
-            System.out.println("posiX: " + charakter.getPosiX()+ "\n" + "posiY :" + charakter.getPosiY());
+           // pg.image(HOUSE_IMAGE, charakter.getPosiX(), charakter.getPosiY());
+           // System.out.println("posiX: " + charakter.getPosiX()+ "\n" + "posiY :" + charakter.getPosiY());
 
 
-            pg.endDraw();
-            image(pg, 0, 0);
+          //  pg.endDraw();
+           // buildableArrayList.get(0).setCordY(200);
+          //  image(pg, , 0);
        // }
 
 
@@ -166,6 +199,8 @@ public class Game extends PApplet {
             }
         }
     }
+
+
     public void displayBuildable(){
         for(Buildable buildable : buildableArrayList){
             image(buildable.getImage(),buildable.getCordX(),buildable.getCordY());
@@ -173,6 +208,7 @@ public class Game extends PApplet {
     }
     public void updateCharakter() {
         charakter.setPosiX(tileArrayList.get(820).getCOORDINATEX());
+        charakter.setPosiY(tileArrayList.get(820).getCOORDINATEY());
         Tile groundTile = tileArrayList.get(820);
         if (groundTile instanceof GrassTile) {
             charakter.setGrass(true);
@@ -199,6 +235,7 @@ public class Game extends PApplet {
 
                 //tile.tileMoveUP();
                 map.setCordY(map.getCordY() -0.025F);
+                absoluteCordsX += 20;
             }
 
 
@@ -237,7 +274,7 @@ public class Game extends PApplet {
         HERO_IMAGE = loadImage("ressources/held_survival.png");
     }
     public void buildableImage(){
-    HOUSE_IMAGE =  loadImage("ressources/house.png");
+   // HOUSE_IMAGE =  loadImage("ressources/house.png");
     }
     public void keyPressed(){
         if(keyPressed && canMove >29){
@@ -259,10 +296,21 @@ public class Game extends PApplet {
             if(key == 'd'){
                canMoveRight = true;
             }
-            if(key == 'q'){
-             //    buildable.create(1);
-               //  setImageBuildable();
-               //  System.out.println(buildableArrayList.size());
+            if(key == 'q') {
+                System.out.println(charakter + " Q Charakter");
+                System.out.println(buildable.getCharakter() + "Q Gedrückt");
+                buildable.create(1);
+                setImageBuildable();
+                System.out.println(buildableArrayList.size());
+                buildableArrayList.add(new House(HOUSE_IMAGE, charakter.getPosiX() + zähler, charakter.getPosiY()));
+
+                for (Buildable buildable : buildableArrayList) {
+                    pg.beginDraw();
+                    pg.image(buildable.getImage(),map.getCordX(), map.getCordY());
+
+                    pg.endDraw();
+                   // zähler += 5;
+                }
             }
         }
 
