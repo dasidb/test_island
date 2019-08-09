@@ -27,9 +27,10 @@ public class Game extends PApplet {
     Buildable buildable;
     ArrayList<Buildable> buildableArrayList = new ArrayList<>();
     PGraphics pg;
-    private float absoluteCordsX;
-    private float getAbsoluteCordsY;
-    // TODO: 08.08.2019 absoulute cords einbauen diese ummünzen für die up down bewegung das anpassen an die buildables
+    private float absoluteCordsX = 400;
+    private float absoluteCordsY = 400;
+    // TODO: 08.08.2019 absoulute cords einbauen diese ummünzen fü
+    //  r die up down bewegung das anpassen an die buildables
 
 
 
@@ -142,7 +143,10 @@ public class Game extends PApplet {
      //      pg.clear();
        //    pg.image(buildable.getImage(),buildable.getCordX() + zähler ,buildable.getCordY() + zähler);
        //    pg.endDraw();
-           image(pg,buildable.getCordX(),buildable.getCordY());
+           if(buildable.getCordX() >0 && buildable.getCordX() < 600) {
+              // image(pg, buildable.getCordX(), buildable.getCordY());
+               // TODO: 09.08.2019 test image pg weg
+           }
 
        }
 
@@ -235,20 +239,35 @@ public class Game extends PApplet {
 
                 //tile.tileMoveUP();
                 map.setCordY(map.getCordY() -0.025F);
-                absoluteCordsX += 20;
+            for (Buildable buildable : buildableArrayList){
+                buildable.setCordY(buildable.getCordY() +20);
+            }
+               // absoluteCordsY -= 20;
             }
 
 
         if(canMoveDown) {
 
                 map.setCordY(map.getCordY() +0.025F);
+                for (Buildable buildable : buildableArrayList){
+                    buildable.setCordY(buildable.getCordY() -20);
+                }
+           // absoluteCordsY += 20;
 
 
         } if(canMoveLeft) {
         map.setCordX(map.getCordX() -0.025F);
+            for (Buildable buildable : buildableArrayList){
+                buildable.setCordX(buildable.getCordX() +20);
+            }
+           // absoluteCordsX += 20;
 
         } if(canMoveRight) {
             map.setCordX(map.getCordX() +0.025F);
+            for (Buildable buildable : buildableArrayList){
+                buildable.setCordX(buildable.getCordX() -20);
+            }
+           // absoluteCordsX -= 20;
 
         }
     }
@@ -297,16 +316,15 @@ public class Game extends PApplet {
                canMoveRight = true;
             }
             if(key == 'q') {
-                System.out.println(charakter + " Q Charakter");
-                System.out.println(buildable.getCharakter() + "Q Gedrückt");
+
                 buildable.create(1);
                 setImageBuildable();
-                System.out.println(buildableArrayList.size());
-                buildableArrayList.add(new House(HOUSE_IMAGE, charakter.getPosiX() + zähler, charakter.getPosiY()));
+
+                buildableArrayList.add(new House(HOUSE_IMAGE, absoluteCordsX , absoluteCordsY));
 
                 for (Buildable buildable : buildableArrayList) {
                     pg.beginDraw();
-                    pg.image(buildable.getImage(),map.getCordX(), map.getCordY());
+                   // pg.image(buildable.getImage(),map.getCordX(), map.getCordY());
 
                     pg.endDraw();
                    // zähler += 5;

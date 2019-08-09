@@ -77,10 +77,7 @@ public class Buildable {
 
     public void create(int counter){
         if(counter == 1){
-            System.out.println(charakter);
-           System.out.println(buildableArrayList.size());
-            System.out.println(charakter.getPosiX());
-           System.out.println(charakter.getPosiY());
+
 
            // buildableArrayList.add(new House(charakter.getPosiX(),charakter.getPosiY() -40));
         }
