@@ -352,9 +352,14 @@ if(pushedX == 40) {
                                 } else if (noise < 0.8F) {
 
                                     tileArrayList.add(new SandTile(x * 20F, y * 20F, cordX+x, cordY+y));
-                                } else {
+                                } else if(noise >= 0.8F && noise < 1.1F ){
 
                                     tileArrayList.add(new GrassTile(x * 20F, y * 20F, cordX+x, cordY+y));
+                                }
+
+                                else {
+                                    tileArrayList.add(new GrassTreeTile(x *20F, y* 20F, cordX+x, cordY+y));
+
                                 }
 
 

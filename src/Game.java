@@ -19,6 +19,7 @@ public class Game extends PApplet {
     private PImage SAND_TILE;
     private PImage HERO_IMAGE;
     private PImage HOUSE_IMAGE;
+    private PImage GRASS_TREE_TILE;
     private int canMove = 0;
     boolean canMoveUp;
     boolean canMoveDown;
@@ -29,6 +30,7 @@ public class Game extends PApplet {
     PGraphics pg;
     private float absoluteCordsX = 400;
     private float absoluteCordsY = 400;
+    private int buildCounter = 0 ;
     // TODO: 08.08.2019 absoulute cords einbauen diese ummünzen fü
     //  r die up down bewegung das anpassen an die buildables
 
@@ -61,7 +63,7 @@ public class Game extends PApplet {
         System.out.println(charakter);
         HOUSE_IMAGE = loadImage("ressources/house.png");
         tileTest = new GrassTile(20,20);
-        buildable = new Buildable(map,charakter, buildableArrayList);
+        buildable = new Buildable(map,charakter, buildableArrayList,HOUSE_IMAGE);
 
 
         pg = createGraphics(800,800);
@@ -106,12 +108,16 @@ public class Game extends PApplet {
 
        for (Tile tile : tileArrayList) {
            // tile.tileMove();
+
            PImage useImage = GRAS_TILE;
            if (tile instanceof SandTile) {
                useImage = SAND_TILE;
            } else if (tile instanceof WaterTile) {
                useImage = WATER_TILE;
+           } else if (tile instanceof GrassTreeTile){
+               useImage = GRASS_TREE_TILE;
            }
+
            //  System.out.println(tileArrayList.get(2).getCOORDINATEX());
            //  if(tile.getCOORDINATEX() >= map.getCordX() && tile.getCOORDINATEX() < map.getCordX() + 5 && tile.getCOORDINATEY() > map.getCordY() && tile.getCOORDINATEY() < map.getCordY() + 0.1F) {
 
@@ -287,6 +293,7 @@ public class Game extends PApplet {
         WATER_TILE = loadImage("Ressources/waterTile.png");
         GRAS_TILE = loadImage("Ressources/grassTile.png");
         SAND_TILE = loadImage("Ressources/sandTile.png");
+        GRASS_TREE_TILE = loadImage("Ressources/grassTreeTile.png");
 
     }
     public void heroImage(){
@@ -315,20 +322,28 @@ public class Game extends PApplet {
             if(key == 'd'){
                canMoveRight = true;
             }
+            if(key == 'e'){
+                buildCounter --;
+            }
+            if(key == 'r'){
+                buildCounter ++;
+            }
+
             if(key == 'q') {
 
-                buildable.create(1);
-                setImageBuildable();
+                buildable.create(buildCounter);
+              //  setImageBuildable();
 
-                buildableArrayList.add(new House(HOUSE_IMAGE, absoluteCordsX , absoluteCordsY));
+              //  buildableArrayList.add(new House(HOUSE_IMAGE, absoluteCordsX , absoluteCordsY));
 
-                for (Buildable buildable : buildableArrayList) {
+             /*   for (Buildable buildable : buildableArrayList) {
                     pg.beginDraw();
                    // pg.image(buildable.getImage(),map.getCordX(), map.getCordY());
 
                     pg.endDraw();
                    // zähler += 5;
                 }
+                */
             }
         }
 

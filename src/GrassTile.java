@@ -12,6 +12,9 @@ public class GrassTile extends Tile {
 
 
     }
+    public GrassTile(){
+
+    }
     public GrassTile(float positionX, float positionY,float CORDX, float CORDY) {
 
         super(positionX, positionY,CORDX,CORDY);

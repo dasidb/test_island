@@ -12,6 +12,7 @@ public class Buildable {
     private Map map;
     private Charakter charakter;
     private ArrayList<Buildable> buildableArrayList = new ArrayList<>();
+    private PImage HOUSE_IMAGE;
 
 
     public Charakter getCharakter() {
@@ -57,11 +58,12 @@ public class Buildable {
     public Buildable(){
 
     }
-    public Buildable(Map map, Charakter charakter, ArrayList<Buildable> buildableArrayList){
+    public Buildable(Map map, Charakter charakter, ArrayList<Buildable> buildableArrayList, PImage HOUSE_IMAGE){
         this.map = map;
         this.charakter = charakter;
         this.buildableArrayList = buildableArrayList;
         System.out.println(charakter + " im buildable construktor");
+        this.HOUSE_IMAGE = HOUSE_IMAGE;
 
     }
 
@@ -79,7 +81,7 @@ public class Buildable {
         if(counter == 1){
 
 
-           // buildableArrayList.add(new House(charakter.getPosiX(),charakter.getPosiY() -40));
+            buildableArrayList.add(new House(HOUSE_IMAGE,400,400));
         }
 
     }
