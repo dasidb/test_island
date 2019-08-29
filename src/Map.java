@@ -20,7 +20,7 @@ public class Map {
     float cordX = 800F;
     float cordY = 800F;
     Buildable buildable;
-
+    Charakter charakter;
 
 
     int positionX = 0;
@@ -50,11 +50,12 @@ public class Map {
 
 
 
-    public Map(PApplet pApplet, ArrayList<Tile> tileArrayList){
+    public Map(PApplet pApplet, ArrayList<Tile> tileArrayList, Charakter charakter){
         this.pApplet = pApplet;
         this.tileArrayList = tileArrayList;
         cordsArrayList.add(cordXList);
         cordsArrayList.add(cordYList);
+        this.charakter= charakter;
 
     }
 
@@ -374,6 +375,48 @@ if(pushedX == 40) {
 
                     return tileArrayList;
                 }
+
+                public void autoscroll(){
+
+                    if(charakter.getPosiX() == 600){
+                        moveRight();
+                    }
+                    if(charakter.getPosiX() == 200){
+                        moveLeft();
+                    }
+                    if(charakter.getPosiY() == 600){
+                        moveDown();
+                    }
+                    if(charakter.getPosiY() == 200){
+                        moveUp();
+                    }
+
+
+                }
+    public void moveRight(){
+
+        //  map.setCordX(map.getCordX() +0.025F);
+        setCordX(getCordX() +0.1F);
+        charakter.setPosiX(charakter.getPosiX() - 80);
+    }
+    public void moveLeft(){
+
+        //  map.setCordX(map.getCordX() +0.025F);
+        setCordX(getCordX() -0.1F);
+        charakter.setPosiX(charakter.getPosiX() + 80);
+    }
+    public void moveUp(){
+
+        //  map.setCordX(map.getCordX() +0.025F);
+        setCordY(getCordY() -0.1F);
+        charakter.setPosiY(charakter.getPosiY() + 80);
+    }
+    public void moveDown(){
+
+        //  map.setCordX(map.getCordX() +0.025F);
+        setCordY(getCordY() +0.1F);
+        charakter.setPosiY(charakter.getPosiY() - 80);
+    }
 
                 }
 

@@ -3,7 +3,7 @@ public class GrassTreeTile extends GrassTile {
 
         super(positionX,positionY,CORDX,CORDY);
         this.setImageLink("Ressources/grassTreeTile.png");
-        System.out.println("wird erstellt");
+
     }
 
 }

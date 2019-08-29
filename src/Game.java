@@ -54,13 +54,15 @@ public class Game extends PApplet {
         heroImage();
         buildableImage();
         tileArrayList = new ArrayList<>();
-        map = new Map(this, tileArrayList);
+
         tile = new Tile();
         System.out.println(charakter+ "vor erstellung");
         charakter= new Charakter();
-        charakter.setPosiY(20);
-        charakter.setPosiX(20);
+
+        charakter.setPosiY(400);
+        charakter.setPosiX(400);
         System.out.println(charakter);
+        map = new Map(this, tileArrayList, charakter);
         HOUSE_IMAGE = loadImage("ressources/house.png");
         tileTest = new GrassTile(20,20);
         buildable = new Buildable(map,charakter, buildableArrayList,HOUSE_IMAGE);
@@ -89,12 +91,12 @@ public class Game extends PApplet {
        if (canMove > 29) {
            moveTile();
        }
-       if (keyPressed && canMove > 29) {
+     //  if (keyPressed){ //&& canMove > 29) {
            //  map.createTiles(key);
            tileArrayList = map.createTiles2();
-           canMove = 30;
+           //canMove = 30;
 
-       }
+     //  }
      /*  for(int y = 0 ; y < 40; y++){
            for( int x = 0; x < 800 ; x++){
 
@@ -137,7 +139,7 @@ public class Game extends PApplet {
 
            //System.out.println("display methode durchlaufen");
        }
-       image(HERO_IMAGE, width / 2, height / 2);
+       image(HERO_IMAGE, charakter.getPosiX(), charakter.getPosiY());
 
        // TODO: 24.07.2019 klappt nicht bild bleibt stehen
        // TODO: 01.08.2019 buildable wird überschrieben muss in arraylist üverführt werden ZONK 
@@ -191,6 +193,14 @@ public class Game extends PApplet {
         if(!buildableArrayList.isEmpty()) {
             displayBuildable();
         }
+        charakter.charakterMove();
+        if(!tileArrayList.isEmpty()) {
+
+            map.autoscroll();
+        }
+
+        charakter.setCanMove(charakter.getCanMove() + 10);
+
    }
     public void displayTile(){
         for(Tile tile : tileArrayList){
@@ -217,8 +227,8 @@ public class Game extends PApplet {
         }
     }
     public void updateCharakter() {
-        charakter.setPosiX(tileArrayList.get(820).getCOORDINATEX());
-        charakter.setPosiY(tileArrayList.get(820).getCOORDINATEY());
+       // charakter.setPosiX(tileArrayList.get(820).getCOORDINATEX());
+        //charakter.setPosiY(tileArrayList.get(820).getCOORDINATEY());
         Tile groundTile = tileArrayList.get(820);
         if (groundTile instanceof GrassTile) {
             charakter.setGrass(true);
@@ -269,7 +279,9 @@ public class Game extends PApplet {
            // absoluteCordsX += 20;
 
         } if(canMoveRight) {
-            map.setCordX(map.getCordX() +0.025F);
+          //  map.setCordX(map.getCordX() +0.025F);
+            map.setCordX(map.getCordX() +0.1F);
+
             for (Buildable buildable : buildableArrayList){
                 buildable.setCordX(buildable.getCordX() -20);
             }
@@ -277,6 +289,15 @@ public class Game extends PApplet {
 
         }
     }
+
+    public void moveRight(){
+
+            //  map.setCordX(map.getCordX() +0.025F);
+            map.setCordX(map.getCordX() +0.1F);
+
+
+        }
+
     public void removeTile(){
      //   System.out.println(tileArrayList.size() + " davor");
 
@@ -303,24 +324,50 @@ public class Game extends PApplet {
    // HOUSE_IMAGE =  loadImage("ressources/house.png");
     }
     public void keyPressed(){
-        if(keyPressed && canMove >29){
+        if(keyPressed){
             if(key == 'w') {
-                canMoveUp = true;
-         /*       for (Tile tile : tileArrayList) {
-                    //tileArrayList.remove(tile);
-                    tile.tileMoveUP();
+            charakter.setMoveUp(true);
+            /*    charakter.setMoveUp(false);
+                System.out.println(charakter.isMoveUp() + "outside");
+                System.out.println(canMove);
+                if(canMove >700){
+                    charakter.setMoveUp(true);
 
+                    System.out.println(charakter.isMoveUp() + "inside");
+                    canMove = 1;
                 } */
-               // System.out.println("move durchlaufen");
+
+             //   canMoveUp = true;
+              //  charakter.movement(key);
+            //    charakter.setPosiY( charakter.getPosiY() - 20);
             }
             if(key == 's') {
-               canMoveDown = true;
+                charakter.setMoveDown(true);
+             //  canMoveDown = true;
+            //    charakter.setPosiY( charakter.getPosiY() + 20);
+
             }
             if(key == 'a'){
-                canMoveLeft = true;
+                charakter.setMoveLeft(true);
+               // canMoveLeft = true;
+            //    charakter.setPosiX( charakter.getPosiX() - 20);
             }
             if(key == 'd'){
-               canMoveRight = true;
+                charakter.setMoveRigt(true);
+              // canMoveRight = true;
+              //  if(charakter.getPosiX() < 600 && canMove > 40) {
+                //    charakter.setPosiX(charakter.getPosiX() + 20);
+
+               // }
+           //     else if(canMove > 40){
+                   // canMoveRight = true;
+
+               //     System.out.println("dwdwa");
+               //     charakter.setPosiX(charakter.getPosiX() - 60);
+                //     moveRight();
+
+              //  }
+                canMove = 0;
             }
             if(key == 'e'){
                 buildCounter --;
@@ -350,16 +397,20 @@ public class Game extends PApplet {
     }
     public void keyReleased(){
         if(key == 'w'){
-            canMoveUp = false;
+            //canMoveUp = false;
+            charakter.setMoveUp(false);
         }
         if(key == 's') {
-            canMoveDown = false;
+           // canMoveDown = false;
+            charakter.setMoveDown(false);
         }
         if(key == 'a'){
-            canMoveLeft = false;
+            charakter.setMoveLeft(false);
+            //canMoveLeft = false;
         }
         if(key == 'd'){
-            canMoveRight = false;
+            charakter.setMoveRigt(false);
+            //canMoveRight = false;
         }
     }
 }
