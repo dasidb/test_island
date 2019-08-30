@@ -189,6 +189,7 @@ public class Game extends PApplet {
        }
         if(!tileArrayList.isEmpty()){
             updateCharakter();
+
         }
         if(!buildableArrayList.isEmpty()) {
             displayBuildable();
@@ -200,6 +201,8 @@ public class Game extends PApplet {
         }
 
         charakter.setCanMove(charakter.getCanMove() + 10);
+        collisionCheckTile();
+
 
    }
     public void displayTile(){
@@ -392,6 +395,7 @@ public class Game extends PApplet {
                 }
                 */
             }
+
         }
 
     }
@@ -412,5 +416,19 @@ public class Game extends PApplet {
             charakter.setMoveRigt(false);
             //canMoveRight = false;
         }
+
+    }
+    public void collisionCheckTile(){
+        int relativX = (int) charakter.getPosiX();
+        int relativY = (int) charakter.getPosiY();
+       // System.out.println( (relativX * relativY ));
+        System.out.println((charakter.getPosiX()/20) + ((charakter.getPosiY()/20)*40) );
+        System.out.println((charakter.getPosiX()/20) + ((charakter.getPosiY()/20)*40) );
+     //   tileArrayList.get((relativX * relativY) + 1).setpImage(HERO_IMAGE);
+        line((relativX * relativY) + 1,(relativX * relativY) + 1,(relativX * relativY) + 3,(relativX * relativY) + 3);
+     //   if(tileArrayList.get( (int) (charakter.getPosiX()/20F) + (int) ((charakter.getPosiY()/20F)*40F) ) instanceof WaterTile){
+     //      System.out.println("yatta");
+     //   }
+
     }
 }

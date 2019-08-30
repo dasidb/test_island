@@ -15,6 +15,7 @@ public class Charakter {
     private boolean moveLeft;
     private boolean moveRigt;
     private int canMove = 0;
+    int cordsRelativX = 20;
 
     public int getCanMove() {
         return canMove;
@@ -158,7 +159,8 @@ public class Charakter {
     }
 
     public void charakterMove() {
-System.out.println(canMove);
+
+
         if (moveUp && canMove >50) {
             //   canMoveUp = true;
             //  charakter.movement(key);
