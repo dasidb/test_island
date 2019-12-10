@@ -15,7 +15,24 @@ public class Charakter {
     private boolean moveLeft;
     private boolean moveRigt;
     private int canMove = 0;
-    int cordsRelativX = 20;
+    private int absoluteX;
+    private int absoluteY;
+
+    public int getAbsoluteX() {
+        return absoluteX;
+    }
+
+    public void setAbsoluteX(int absoluteX) {
+        this.absoluteX = absoluteX;
+    }
+
+    public int getAbsoluteY() {
+        return absoluteY;
+    }
+
+    public void setAbsoluteY(int absoluteY) {
+        this.absoluteY = absoluteY;
+    }
 
     public int getCanMove() {
         return canMove;
@@ -122,9 +139,11 @@ public class Charakter {
         this.health = health;
     }
 
-    public Charakter() {
-
-
+    public Charakter(int posiX, int posiY) {
+    this.posiX = posiX;
+    this.posiY = posiY;
+    absoluteX = 19;
+    absoluteY = 19;
     }
 
 
@@ -166,23 +185,25 @@ public class Charakter {
             //  charakter.movement(key);
             setPosiY(getPosiY() - 20);
             canMove = 0;
+            absoluteY -=1;
         }
         if (moveDown && canMove >50) {
             //  canMoveDown = true;
             setPosiY(getPosiY() + 20);
             canMove = 0;
+            absoluteY += 1;
         }
         if (moveLeft && canMove >50) {
             // canMoveLeft = true;
             setPosiX(getPosiX() - 20);
             canMove = 0;
+            absoluteX -= 1;
         }
         if (moveRigt && canMove >50) {
             // canMoveRight = true;
             setPosiX(getPosiX() + 20);
-
             canMove = 0;
-
+            absoluteX += 1;
 
 
             }

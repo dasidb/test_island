@@ -15,9 +15,9 @@ public class GrassTile extends Tile {
     public GrassTile(){
 
     }
-    public GrassTile(float positionX, float positionY,float CORDX, float CORDY) {
+    public GrassTile(float positionX, float positionY,float CORDX, float CORDY, int absoluteX, int absoluteY){
 
-        super(positionX, positionY,CORDX,CORDY);
+        super(positionX,positionY,CORDX,CORDY,absoluteX ,absoluteY );
         this.setImageLink("Ressources/grassTile.png");
 
 

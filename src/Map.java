@@ -22,6 +22,8 @@ public class Map {
     Buildable buildable;
     Charakter charakter;
     ArrayList<Buildable> buildableArrayList;
+    int absolutX = 0;
+    int absoluteY = 0;
 
 
     int positionX = 0;
@@ -329,9 +331,9 @@ if(pushedX == 40) {
 
                     tileArrayList = new ArrayList<>();
                   //  System.out.println(tileArrayList.size() + "array size");
-                    for (int x = 0; x < 40; x++) {
+                    for (int y = 0; y < 40; y++) {
                        // for (int y = 0; y < 40; y++) {
-                            for (int y = 0; y < 40; y++) {
+                            for (int x = 0; x < 40; x++) {
                                 float noisescale = 0.02F;
                                 // TODO: 22.07.2019  ggf fehler hier big
                                 float noiseInputX = (cordX + (float) x / 40F) ; //*noisescale ;
@@ -341,7 +343,8 @@ if(pushedX == 40) {
                                         + 0.25F * pApplet.noise(3F * noiseInputX, 3F * noiseInputY);
                                // noise= (float) Math.pow((noise), 0.9F);
                                 //float noise = pApplet.noise(noiseInputX , noiseInputY );
-
+                                int tempCordX = x + absolutX;
+                                int tempCordY = y + absoluteY;
 
 
                                 // System.out.println(cordX + " =cord x "+ x + "=x");
@@ -349,19 +352,19 @@ if(pushedX == 40) {
                                 //     if(!cordXList.contains(cordX+x) && !cordYList.contains(cordY+y)) {
                             //    System.out.println("das ist cord x" + cordX + "\n" + "das ist x " + x);
                                 if (noise < 0.76F) {
-                                    tileArrayList.add(new WaterTile(x * 20F, y * 20F, cordX+x, cordY+y));
+                                        tileArrayList.add(new WaterTile(x * 20F, y * 20F, cordX+x, cordY+y,tempCordX,tempCordY));
 
 
-                                } else if (noise < 0.8F) {
+                                    } else if (noise < 0.8F) {
 
-                                    tileArrayList.add(new SandTile(x * 20F, y * 20F, cordX+x, cordY+y));
-                                } else if(noise >= 0.8F && noise < 1.1F ){
+                                        tileArrayList.add(new SandTile(x * 20F, y * 20F, cordX+x, cordY+y,tempCordX,tempCordY));
+                                    } else if(noise >= 0.8F && noise < 1.1F ){
 
-                                    tileArrayList.add(new GrassTile(x * 20F, y * 20F, cordX+x, cordY+y));
-                                }
+                                        tileArrayList.add(new GrassTile(x * 20F, y * 20F, cordX+x, cordY+y,tempCordX,tempCordY));
+                                    }
 
-                                else {
-                                    tileArrayList.add(new GrassTreeTile(x *20F, y* 20F, cordX+x, cordY+y));
+                                    else {
+                                        tileArrayList.add(new GrassTreeTile(x *20F, y* 20F, cordX+x, cordY+y,tempCordX,tempCordY));
 
                                 }
 
@@ -400,6 +403,7 @@ if(pushedX == 40) {
 
         //  map.setCordX(map.getCordX() +0.025F);
         setCordX(getCordX() +0.1F);
+        absolutX += 4;
         charakter.setPosiX(charakter.getPosiX() - 80);
         for (Buildable buildable : buildableArrayList) {
             buildable.setCordX(buildable.getCordX() - 80);
@@ -410,6 +414,7 @@ if(pushedX == 40) {
 
         //  map.setCordX(map.getCordX() +0.025F);
         setCordX(getCordX() -0.1F);
+        absolutX -= 4;
         charakter.setPosiX(charakter.getPosiX() + 80);
         for (Buildable buildable : buildableArrayList) {
             buildable.setCordX(buildable.getCordX() + 80);
@@ -419,6 +424,7 @@ if(pushedX == 40) {
 
         //  map.setCordX(map.getCordX() +0.025F);
         setCordY(getCordY() -0.1F);
+        absoluteY -= 4;
         charakter.setPosiY(charakter.getPosiY() + 80);
         for (Buildable buildable : buildableArrayList) {
             buildable.setCordY(buildable.getCordY() + 80);
@@ -428,6 +434,7 @@ if(pushedX == 40) {
 
         //  map.setCordX(map.getCordX() +0.025F);
         setCordY(getCordY() +0.1F);
+        absoluteY += 4;
         charakter.setPosiY(charakter.getPosiY() - 80);
         for (Buildable buildable : buildableArrayList) {
             buildable.setCordY(buildable.getCordY() - 80);

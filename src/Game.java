@@ -59,15 +59,14 @@ public class Game extends PApplet {
 
         tile = new Tile();
         System.out.println(charakter+ "vor erstellung");
-        charakter= new Charakter();
+        charakter= new Charakter(400,400);
 
-        charakter.setPosiY(400);
-        charakter.setPosiX(400);
+
         System.out.println(charakter);
         map = new Map(this, tileArrayList, charakter, buildableArrayList);
         HOUSE_IMAGE = loadImage("ressources/house.png");
         tileTest = new GrassTile(20,20);
-        buildable = new Buildable(map,charakter, buildableArrayList,HOUSE_IMAGE);
+       // buildable = new Buildable(map,charakter, buildableArrayList,HOUSE_IMAGE);
 
 
         pg = createGraphics(800,800);
@@ -138,6 +137,8 @@ public class Game extends PApplet {
                // System.out.println(tileRemoveArrayList.size());
 
            }
+
+
 
            //System.out.println("display methode durchlaufen");
        }
@@ -229,7 +230,11 @@ public class Game extends PApplet {
     public void displayBuildable(){
         for(Buildable buildable : buildableArrayList){
             if(buildable.getCordX() > charakter.getPosiX() - gameSizeX && buildable.getCordX() < charakter.getPosiX() + gameSizeX && buildable.getCordY()> charakter.getPosiY() - gameSizeY && buildable.getCordY() < charakter.getPosiY() + gameSizeY) {
-                image(buildable.getImage(), buildable.getCordX(), buildable.getCordY());
+                //image(buildable.getImage(), buildable.getCordX(), buildable.getCordY());
+                image(buildable.getImage(), tileArrayList.get(buildable.getAbsoluteX()).getPositionX(), tileArrayList.get(buildable.getAbsoluteY() *35).getPositionY());
+                System.out.println(tileArrayList.get(19).getPositionX());
+
+
 
             }
         }
@@ -388,10 +393,10 @@ public class Game extends PApplet {
 
             if(key == 'q') {
 
-                buildable.create(buildCounter);
-                setImageBuildable();
+               // buildable.create(buildCounter);
+               // setImageBuildable();
 
-                buildableArrayList.add(new House(HOUSE_IMAGE, charakter.getPosiX()-40  , charakter.getPosiY() - 80));
+                buildableArrayList.add(new House(HOUSE_IMAGE, charakter.getPosiX()-40  , charakter.getPosiY() - 80, charakter.getAbsoluteX(), charakter.getAbsoluteY()));
 
 
                 for (Buildable buildable : buildableArrayList) {
@@ -401,6 +406,10 @@ public class Game extends PApplet {
                     pg.endDraw();
                     zähler += 5;
                 }
+
+
+            }
+            if(key == 't'){
 
             }
 
@@ -431,7 +440,7 @@ public class Game extends PApplet {
         int relativY = (int) charakter.getPosiY();
        // System.out.println( (relativX * relativY ));
         // TODO: 30.08.2019 ergibt die rechnung sinn? ich will die in 1er schritten fortführen und so die nebenliegenden "instance of" tracken z.B. nicht durch bäume laufen
-        System.out.println((charakter.getPosiX()/20) + ((charakter.getPosiY()/20)*40) );
+        //System.out.println((charakter.getPosiX()/20) + ((charakter.getPosiY()/20)*40) );
       //  System.out.println((charakter.getPosiX()/20) + ((charakter.getPosiY()/2)*40) );
      //   tileArrayList.get((relativX * relativY) + 1).setpImage(HERO_IMAGE);
         line((charakter.getPosiX()/20),(charakter.getPosiY()/20)*40, (charakter.getPosiX()/20)*40 +20,(charakter.getPosiY()/20)*40)  ;

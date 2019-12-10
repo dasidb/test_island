@@ -8,9 +8,9 @@ public class WaterTile extends Tile {
         this.setImageLink("Ressources/waterTile.png");
 
     }
-    public WaterTile(float positionX, float positionY,float CORDX, float CORDY){
+    public WaterTile(float positionX, float positionY,float CORDX, float CORDY, int absoluteX, int absoluteY){
 
-        super(positionX,positionY,CORDX,CORDY);
+        super(positionX,positionY,CORDX,CORDY,absoluteX ,absoluteY );
         this.setImageLink("Ressources/waterTile.png");
 
     }

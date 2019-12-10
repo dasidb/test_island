@@ -13,7 +13,24 @@ public class Buildable {
     private Charakter charakter;
     private ArrayList<Buildable> buildableArrayList = new ArrayList<>();
     private PImage HOUSE_IMAGE;
+    private int absoluteX;
+    private int absoluteY;
 
+    public int getAbsoluteX() {
+        return absoluteX;
+    }
+
+    public void setAbsoluteX(int absoluteX) {
+        this.absoluteX = absoluteX;
+    }
+
+    public int getAbsoluteY() {
+        return absoluteY;
+    }
+
+    public void setAbsoluteY(int absoluteY) {
+        this.absoluteY = absoluteY;
+    }
 
     public Charakter getCharakter() {
         return charakter;
@@ -58,12 +75,14 @@ public class Buildable {
     public Buildable(){
 
     }
-    public Buildable(Map map, Charakter charakter, ArrayList<Buildable> buildableArrayList, PImage HOUSE_IMAGE){
+    public Buildable(Map map, Charakter charakter, ArrayList<Buildable> buildableArrayList, PImage HOUSE_IMAGE, int absoluteX, int absoluteY){
         this.map = map;
         this.charakter = charakter;
         this.buildableArrayList = buildableArrayList;
         System.out.println(charakter + " im buildable construktor");
         this.HOUSE_IMAGE = HOUSE_IMAGE;
+        this.absoluteX = absoluteX;
+        this.absoluteY = absoluteY;
 
     }
 
@@ -71,17 +90,19 @@ public class Buildable {
         this.cordX = cordX;
         this.cordY = cordY;
     }
-    public Buildable(float cordX, float cordY, PImage image){
+    public Buildable(float cordX, float cordY, PImage image , int absoluteX, int absoluteY){
         this.cordX = cordX;
         this.cordY = cordY;
         this.image = image;
+        this.absoluteX = absoluteX;
+        this.absoluteY = absoluteY;
     }
 
     public void create(int counter){
         if(counter == 1){
 
 
-            buildableArrayList.add(new House(HOUSE_IMAGE,400,400));
+           // buildableArrayList.add(new House(HOUSE_IMAGE,400,400));
         }
 
     }
