@@ -233,6 +233,7 @@ public class Game extends PApplet {
                 //image(buildable.getImage(), buildable.getCordX(), buildable.getCordY());
                 image(buildable.getImage(), tileArrayList.get(buildable.getAbsoluteX()).getPositionX(), tileArrayList.get(buildable.getAbsoluteY() *35).getPositionY());
                 System.out.println(tileArrayList.get(19).getPositionX());
+                //
 
 
 
