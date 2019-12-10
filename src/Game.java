@@ -31,6 +31,8 @@ public class Game extends PApplet {
     private float absoluteCordsX = 400;
     private float absoluteCordsY = 400;
     private int buildCounter = 0 ;
+    private int gameSizeX = 800;
+    private int gameSizeY = 800;
     // TODO: 08.08.2019 absoulute cords einbauen diese ummünzen fü
     //  r die up down bewegung das anpassen an die buildables
 
@@ -44,7 +46,7 @@ public class Game extends PApplet {
     public void settings(){
         super.settings();
 
-        size(800, 800);
+        size(gameSizeX, gameSizeY);
 
     }
     @Override
@@ -62,7 +64,7 @@ public class Game extends PApplet {
         charakter.setPosiY(400);
         charakter.setPosiX(400);
         System.out.println(charakter);
-        map = new Map(this, tileArrayList, charakter);
+        map = new Map(this, tileArrayList, charakter, buildableArrayList);
         HOUSE_IMAGE = loadImage("ressources/house.png");
         tileTest = new GrassTile(20,20);
         buildable = new Buildable(map,charakter, buildableArrayList,HOUSE_IMAGE);
@@ -226,7 +228,10 @@ public class Game extends PApplet {
 
     public void displayBuildable(){
         for(Buildable buildable : buildableArrayList){
-            image(buildable.getImage(),buildable.getCordX(),buildable.getCordY());
+            if(buildable.getCordX() > charakter.getPosiX() - gameSizeX && buildable.getCordX() < charakter.getPosiX() + gameSizeX && buildable.getCordY()> charakter.getPosiY() - gameSizeY && buildable.getCordY() < charakter.getPosiY() + gameSizeY) {
+                image(buildable.getImage(), buildable.getCordX(), buildable.getCordY());
+
+            }
         }
     }
     public void updateCharakter() {
@@ -254,12 +259,14 @@ public class Game extends PApplet {
       //  System.out.println("Water: " +charakter.isWater());
     }
     public void moveTile(){
-        if(canMoveUp) {
 
+        if(canMoveUp) {
+            print("bdwadwiadjiwadjiawiojdjiowajdjwajoid");
                 //tile.tileMoveUP();
                 map.setCordY(map.getCordY() -0.025F);
             for (Buildable buildable : buildableArrayList){
                 buildable.setCordY(buildable.getCordY() +20);
+
             }
                // absoluteCordsY -= 20;
             }
@@ -382,18 +389,19 @@ public class Game extends PApplet {
             if(key == 'q') {
 
                 buildable.create(buildCounter);
-              //  setImageBuildable();
+                setImageBuildable();
 
-              //  buildableArrayList.add(new House(HOUSE_IMAGE, absoluteCordsX , absoluteCordsY));
+                buildableArrayList.add(new House(HOUSE_IMAGE, charakter.getPosiX()-40  , charakter.getPosiY() - 80));
 
-             /*   for (Buildable buildable : buildableArrayList) {
+
+                for (Buildable buildable : buildableArrayList) {
                     pg.beginDraw();
                    // pg.image(buildable.getImage(),map.getCordX(), map.getCordY());
 
                     pg.endDraw();
-                   // zähler += 5;
+                    zähler += 5;
                 }
-                */
+
             }
 
         }
@@ -422,10 +430,11 @@ public class Game extends PApplet {
         int relativX = (int) charakter.getPosiX();
         int relativY = (int) charakter.getPosiY();
        // System.out.println( (relativX * relativY ));
+        // TODO: 30.08.2019 ergibt die rechnung sinn? ich will die in 1er schritten fortführen und so die nebenliegenden "instance of" tracken z.B. nicht durch bäume laufen
         System.out.println((charakter.getPosiX()/20) + ((charakter.getPosiY()/20)*40) );
-        System.out.println((charakter.getPosiX()/20) + ((charakter.getPosiY()/20)*40) );
+      //  System.out.println((charakter.getPosiX()/20) + ((charakter.getPosiY()/2)*40) );
      //   tileArrayList.get((relativX * relativY) + 1).setpImage(HERO_IMAGE);
-        line((relativX * relativY) + 1,(relativX * relativY) + 1,(relativX * relativY) + 3,(relativX * relativY) + 3);
+        line((charakter.getPosiX()/20),(charakter.getPosiY()/20)*40, (charakter.getPosiX()/20)*40 +20,(charakter.getPosiY()/20)*40)  ;
      //   if(tileArrayList.get( (int) (charakter.getPosiX()/20F) + (int) ((charakter.getPosiY()/20F)*40F) ) instanceof WaterTile){
      //      System.out.println("yatta");
      //   }

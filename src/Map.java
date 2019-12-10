@@ -21,6 +21,7 @@ public class Map {
     float cordY = 800F;
     Buildable buildable;
     Charakter charakter;
+    ArrayList<Buildable> buildableArrayList;
 
 
     int positionX = 0;
@@ -50,12 +51,13 @@ public class Map {
 
 
 
-    public Map(PApplet pApplet, ArrayList<Tile> tileArrayList, Charakter charakter){
+    public Map(PApplet pApplet, ArrayList<Tile> tileArrayList, Charakter charakter, ArrayList<Buildable> buildableArrayList){
         this.pApplet = pApplet;
         this.tileArrayList = tileArrayList;
         cordsArrayList.add(cordXList);
         cordsArrayList.add(cordYList);
         this.charakter= charakter;
+        this.buildableArrayList = buildableArrayList;
 
     }
 
@@ -380,6 +382,7 @@ if(pushedX == 40) {
 
                     if(charakter.getPosiX() == 600){
                         moveRight();
+
                     }
                     if(charakter.getPosiX() == 200){
                         moveLeft();
@@ -398,24 +401,37 @@ if(pushedX == 40) {
         //  map.setCordX(map.getCordX() +0.025F);
         setCordX(getCordX() +0.1F);
         charakter.setPosiX(charakter.getPosiX() - 80);
+        for (Buildable buildable : buildableArrayList) {
+            buildable.setCordX(buildable.getCordX() - 80);
+        }
+
     }
     public void moveLeft(){
 
         //  map.setCordX(map.getCordX() +0.025F);
         setCordX(getCordX() -0.1F);
         charakter.setPosiX(charakter.getPosiX() + 80);
+        for (Buildable buildable : buildableArrayList) {
+            buildable.setCordX(buildable.getCordX() + 80);
+        }
     }
     public void moveUp(){
 
         //  map.setCordX(map.getCordX() +0.025F);
         setCordY(getCordY() -0.1F);
         charakter.setPosiY(charakter.getPosiY() + 80);
+        for (Buildable buildable : buildableArrayList) {
+            buildable.setCordY(buildable.getCordY() + 80);
+        }
     }
     public void moveDown(){
 
         //  map.setCordX(map.getCordX() +0.025F);
         setCordY(getCordY() +0.1F);
         charakter.setPosiY(charakter.getPosiY() - 80);
+        for (Buildable buildable : buildableArrayList) {
+            buildable.setCordY(buildable.getCordY() - 80);
+        }
     }
 
                 }

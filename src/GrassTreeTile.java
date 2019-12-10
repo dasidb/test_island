@@ -6,4 +6,7 @@ public class GrassTreeTile extends GrassTile {
 
     }
 
+    public void chopTree(){
+        //setpImage();
+    }
 }
