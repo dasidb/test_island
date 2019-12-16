@@ -147,67 +147,38 @@ public class Charakter {
     }
 
 
-    public void movement(char key) {
-        if (key == 'w') {
-            this.setPosiY(this.getPosiY() + 20);
-        }
-        if (key == 's') {
-            this.setPosiY(this.getPosiY() - 20);
-        }
-        if (key == 'a') {
-            this.setPosiX(this.getPosiX() - 20);
-        }
-        if (key == 'd') {
-            this.setPosiX(this.getPosiX() + 20);
-        }
 
 
-    }
-
-    public void moveUp(){
-        setPosiY(getPosiY() - 20);
-    }
-    public void moveDown(){
-        setPosiY(getPosiY() + 20);
-    }
-    public void moveLeft(){
-        setPosiY(getPosiY() - 20);
-    }
-    public void moveRight(){
-        setPosiY(getPosiY() - 20);
-    }
-
-    public void charakterMove() {
+    public boolean charakterMove() {
 
 
         if (moveUp && canMove >50) {
-            //   canMoveUp = true;
-            //  charakter.movement(key);
+
             setPosiY(getPosiY() - 20);
             canMove = 0;
             absoluteY -=1;
         }
         if (moveDown && canMove >50) {
-            //  canMoveDown = true;
+
             setPosiY(getPosiY() + 20);
             canMove = 0;
             absoluteY += 1;
         }
         if (moveLeft && canMove >50) {
-            // canMoveLeft = true;
+
             setPosiX(getPosiX() - 20);
             canMove = 0;
             absoluteX -= 1;
         }
         if (moveRigt && canMove >50) {
-            // canMoveRight = true;
+
             setPosiX(getPosiX() + 20);
             canMove = 0;
             absoluteX += 1;
 
 
             }
-
+        return true;
         }
     }
 

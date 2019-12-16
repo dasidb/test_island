@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.math.BigDecimal;
 
 public class GrassTile extends Tile {
-    // private String imageLink = "Ressources/grassTile.png";
+
 
     public GrassTile(float positionX, float positionY) {
 

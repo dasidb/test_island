@@ -98,13 +98,6 @@ public class Buildable {
         this.absoluteY = absoluteY;
     }
 
-    public void create(int counter){
-        if(counter == 1){
 
-
-           // buildableArrayList.add(new House(HOUSE_IMAGE,400,400));
-        }
-
-    }
 
 }
