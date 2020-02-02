@@ -1,12 +1,14 @@
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PVector;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Game extends PApplet {
     int zähler = 50;
-    private Map map;
+    private GameMap gameMap;
     private Tile tile;
     private Tile tileTest;
     private ArrayList<Tile> tileArrayList;
@@ -36,6 +38,7 @@ public class Game extends PApplet {
     private int gameSizeY = 800;
     // TODO: 08.08.2019 absoulute cords einbauen diese ummünzen fü
     //  r die up down bewegung das anpassen an die buildables
+    boolean drawNewMap = true;
 
 
 
@@ -60,11 +63,11 @@ public class Game extends PApplet {
 
         tile = new Tile();
         System.out.println(charakter+ "vor erstellung");
-        charakter= new Charakter(400,400);
+        charakter= new Charakter(400,400, this);
 
 
         System.out.println(charakter);
-        map = new Map(this, tileArrayList, charakter, buildableArrayList, drawNew);
+        gameMap = new GameMap(this, tileArrayList, charakter, buildableArrayList, drawNew);
         HOUSE_IMAGE = loadImage("ressources/house.png");
         tileTest = new GrassTile(20,20);
 
@@ -77,55 +80,65 @@ public class Game extends PApplet {
         if(continueMap) {
 
         }
-         testfloat = map.getTestFloat();
+         testfloat = gameMap.getTestFloat();
 
+        gameMap.createTiles3();
 
-
+        System.out.println(gameMap.getTileMap().size());
         frameRate(30);
         background(0);
         loop();
     }
    @Override
     public void draw() {
-
+        if(drawNewMap){
+            gameMap.createTiles3();
+            drawNewMap = false;
+        }
 
        if (canMove > 29) {
            moveTile();
        }
        // TODO: 12/12/2019 die sachen müssen einen neuen aufruf bei bewegungen etc haben (draw)
-       if(drawNew) {
-           System.out.println("test");
+       if(drawNew || canMoveUp) {
 
-           tileArrayList = map.createTiles2();
-           for (Tile tile : tileArrayList) {
+         System.out.println(gameMap.getTileMap().size());
+
+    //       tileArrayList = gameMap.createTiles2();
+       //    for (Tile tile : tileArrayList) {
+           for(int x = gameMap.absolutX; x < gameMap.absolutX + 40; x++) {
+               for (int y = gameMap.absoluteY; y < gameMap.absoluteY + 40; y++) {
+
+                   Tile tile = gameMap.getTileMap().get(new PVector(x, y));
+
+                   // Tile tile = tiletmp.getValue();
+                   PImage useImage = GRAS_TILE;
+                   if (tile instanceof SandTile) {
+                       useImage = SAND_TILE;
+                   } else if (tile instanceof WaterTile) {
+                       useImage = WATER_TILE;
+                   } else if (tile instanceof GrassTreeTile) {
+                       useImage = GRASS_TREE_TILE;
+                   }
 
 
-               PImage useImage = GRAS_TILE;
-               if (tile instanceof SandTile) {
-                   useImage = SAND_TILE;
-               } else if (tile instanceof WaterTile) {
-                   useImage = WATER_TILE;
-               } else if (tile instanceof GrassTreeTile){
-                   useImage = GRASS_TREE_TILE;
-               }
+                   image(useImage, tile.getNOWREALLYABSOLUTEX() - (gameMap.absolutX * 20), tile.getNOWREALLYABSOLUTEY() - (gameMap.absoluteY * 20));
 
+                   if (tile.getPositionY() > 800) {
+                       //tileRemoveArrayList.add(tile);
 
-
-               image(useImage, tile.getPositionX(), tile.getPositionY());
-
-               if (tile.getPositionY() > 800) {
-                   tileRemoveArrayList.add(tile);
-
+                   }
                }
 
 
 
            }
            displayBuildable();
-           drawNew = false;
+          drawNew = false;
+
        }
 
-
+       image(HERO_IMAGE, charakter.getPosiX(), charakter.getPosiY());
 
     /*   for (Tile tile : tileArrayList) {
 
@@ -151,10 +164,10 @@ public class Game extends PApplet {
 
 
        } */
-       image(HERO_IMAGE, charakter.getPosiX(), charakter.getPosiY());
+
 
        // TODO: 24.07.2019 klappt nicht bild bleibt stehen
-       // TODO: 01.08.2019 buildable wird überschrieben muss in arraylist üverführt werden ZONK 
+       // TODO: 01.08.2019 buildable wird überschrieben muss in arraylist üverführt werden ZONK
 
 
 
@@ -163,14 +176,14 @@ public class Game extends PApplet {
 
 
 // TODO: 19.07.2019 er liegt immer auf tile 820 also die cords übernehmen und prüfen ob auf welchem er liegt
-       // TODO: 19.07.2019 also ob es instance of x,y,z ist  
+       // TODO: 19.07.2019 also ob es instance of x,y,z ist
        removeTile();
        if (canMove < 30) {
            canMove += 1;
        }
         //if(!tileArrayList.isEmpty()){
        if(charakter.charakterMove()){
-            updateCharakter();
+          //  updateCharakter();
 
         }
 
@@ -180,9 +193,9 @@ public class Game extends PApplet {
 
         if(!tileArrayList.isEmpty()) {
 
-            drawNew = map.autoscroll();
-        }
 
+        }
+       drawNewMap = gameMap.autoscroll();
         charakter.setCanMove(charakter.getCanMove() + 10);
         collisionCheckTile();
 
@@ -230,7 +243,7 @@ public class Game extends PApplet {
 
             print("bdwadwiadjiwadjiawiojdjiowajdjwajoid");
 
-                map.setCordY(map.getCordY() -0.025F);
+                gameMap.setCordY(gameMap.getCordY() -0.025F);
             for (Buildable buildable : buildableArrayList){
                 buildable.setCordY(buildable.getCordY() +20);
 
@@ -241,7 +254,7 @@ public class Game extends PApplet {
 
         if(canMoveDown) {
 
-                map.setCordY(map.getCordY() +0.025F);
+                gameMap.setCordY(gameMap.getCordY() +0.025F);
                 for (Buildable buildable : buildableArrayList){
                     buildable.setCordY(buildable.getCordY() -20);
                 }
@@ -249,14 +262,14 @@ public class Game extends PApplet {
 
 
         } if(canMoveLeft) {
-        map.setCordX(map.getCordX() -0.025F);
+        gameMap.setCordX(gameMap.getCordX() -0.025F);
             for (Buildable buildable : buildableArrayList){
                 buildable.setCordX(buildable.getCordX() +20);
             }
 
 
         } if(canMoveRight) {
-            map.setCordX(map.getCordX() +0.025F);
+            gameMap.setCordX(gameMap.getCordX() +0.025F);
 
 
             for (Buildable buildable : buildableArrayList){
@@ -296,8 +309,12 @@ public class Game extends PApplet {
     }
     public void keyPressed(){
         if(keyPressed){
+            drawNew = true;
+
             if(key == 'w') {
             charakter.setMoveUp(true);
+
+
 
             }
             if(key == 's') {
@@ -307,9 +324,11 @@ public class Game extends PApplet {
             if(key == 'a'){
                 charakter.setMoveLeft(true);
 
+
             }
             if(key == 'd'){
                 charakter.setMoveRigt(true);
+
 
                 canMove = 0;
             }
@@ -335,7 +354,7 @@ public class Game extends PApplet {
                     zähler += 5;
                 }
 
-
+                drawNew = true;
             }
             if(key == 't'){
 
@@ -344,21 +363,33 @@ public class Game extends PApplet {
         }
 
     }
+    public void keyHold(){
+
+    }
     public void keyReleased(){
         if(key == 'w'){
 
             charakter.setMoveUp(false);
+            drawNew = true;
+
+
         }
         if(key == 's') {
 
             charakter.setMoveDown(false);
+            drawNew = true;
+
         }
         if(key == 'a'){
             charakter.setMoveLeft(false);
+            drawNew = true;
+
 
         }
         if(key == 'd'){
             charakter.setMoveRigt(false);
+            drawNew = true;
+
 
         }
 

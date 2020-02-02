@@ -1,10 +1,13 @@
 import processing.core.PApplet;
+import processing.core.PVector;
 
 import java.math.BigDecimal;
 import java.security.Key;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Map {
+public class GameMap {
     PApplet pApplet;
     Tile tile;
     ArrayList<Tile> tileArrayList;
@@ -32,9 +35,17 @@ public class Map {
     ArrayList<ArrayList<Float>> cordsArrayList = new ArrayList<>();
     ArrayList<Float> cordXList = new ArrayList<>();
     ArrayList<Float> cordYList = new ArrayList<>();
-
     private final boolean IS_DIAGRAMM = false;
+    private Map<PVector, Tile> tileMap = new HashMap<PVector,Tile>();
 
+
+    public Map<PVector, Tile> getTileMap() {
+        return tileMap;
+    }
+
+    public void setTileMap(Map<PVector, Tile> tileMap) {
+        this.tileMap = tileMap;
+    }
 
     public float getCordX() {
         return cordX;
@@ -54,7 +65,7 @@ public class Map {
 
 
 
-    public Map(PApplet pApplet, ArrayList<Tile> tileArrayList, Charakter charakter, ArrayList<Buildable> buildableArrayList, boolean drawMove){
+    public GameMap(PApplet pApplet, ArrayList<Tile> tileArrayList, Charakter charakter, ArrayList<Buildable> buildableArrayList, boolean drawMove){
         this.pApplet = pApplet;
         this.tileArrayList = tileArrayList;
         cordsArrayList.add(cordXList);
@@ -228,6 +239,10 @@ if(pushedX == 40) {
                 } else {
 
 
+
+                    //   pApplet.stroke(120);
+
+
                     if (e < 0.76) {
 
                         if (key == 'w' || key == 's') {
@@ -276,6 +291,51 @@ if(pushedX == 40) {
 
 
 
+                public Map<PVector, Tile> createTiles3(){
+                   // tileMap = new HashMap<>();
+
+                    for (int y = 0; y < 40; y++) {
+
+                        for (int x = 0; x < 40; x++) {
+                            if (!tileMap.containsKey(new PVector(x + absolutX, y + absoluteY))) {
+                                float noiseInputX = (cordX + (float) x / 40F); //*noisescale ;
+                                float noiseInputY = (cordY + (float) y / 40F); //*noisescale ;
+                                float noise = pApplet.noise((noiseInputX * 2F), (noiseInputY * 2F))
+                                        + 0.5F * pApplet.noise(2F * noiseInputX, 2F * noiseInputY)
+                                        + 0.25F * pApplet.noise(3F * noiseInputX, 3F * noiseInputY);
+
+                                int tempCordX = (x  + absolutX) * 20;
+                                int tempCordY = (y  + absoluteY) * 20;
+
+
+                                //     if(!cordXList.contains(cordX+x) && !cordYList.contains(cordY+y)) {
+
+
+                                if (noise < 0.76F) {
+                                    tileMap.put(new PVector(absolutX + x, absoluteY + y), new WaterTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+
+
+                                } else if (noise < 0.8F) {
+                                    tileMap.put(new PVector(absolutX + x, absoluteY + y), new SandTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+
+                                } else if (noise >= 0.8F && noise < 1.1F) {
+                                    tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+
+                                } else {
+                                    tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTreeTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+
+
+                                }
+
+                            }
+                        }
+                    }
+                    return tileMap;
+                }
+
+
+
+
 
 
 
@@ -297,6 +357,10 @@ if(pushedX == 40) {
                                 int tempCordX = x + absolutX;
                                 int tempCordY = y + absoluteY;
 
+
+
+
+                                //     if(!cordXList.contains(cordX+x) && !cordYList.contains(cordY+y)) {
 
 
                                 if (noise < 0.76F) {

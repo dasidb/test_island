@@ -1,3 +1,4 @@
+import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Charakter {
@@ -17,6 +18,7 @@ public class Charakter {
     private int canMove = 0;
     private int absoluteX;
     private int absoluteY;
+    private Game game;
 
     public int getAbsoluteX() {
         return absoluteX;
@@ -139,11 +141,12 @@ public class Charakter {
         this.health = health;
     }
 
-    public Charakter(int posiX, int posiY) {
+    public Charakter(int posiX, int posiY, Game game) {
     this.posiX = posiX;
     this.posiY = posiY;
     absoluteX = 19;
     absoluteY = 19;
+    this.game = game;
     }
 
 
@@ -157,6 +160,7 @@ public class Charakter {
             setPosiY(getPosiY() - 20);
             canMove = 0;
             absoluteY -=1;
+
         }
         if (moveDown && canMove >50) {
 

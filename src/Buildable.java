@@ -1,6 +1,5 @@
 import processing.core.PImage;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Buildable {
@@ -9,7 +8,7 @@ public class Buildable {
    private float cordX;
     private float cordY;
     private boolean isPlacable;
-    private Map map;
+    private GameMap gameMap;
     private Charakter charakter;
     private ArrayList<Buildable> buildableArrayList = new ArrayList<>();
     private PImage HOUSE_IMAGE;
@@ -75,8 +74,8 @@ public class Buildable {
     public Buildable(){
 
     }
-    public Buildable(Map map, Charakter charakter, ArrayList<Buildable> buildableArrayList, PImage HOUSE_IMAGE, int absoluteX, int absoluteY){
-        this.map = map;
+    public Buildable(GameMap gameMap, Charakter charakter, ArrayList<Buildable> buildableArrayList, PImage HOUSE_IMAGE, int absoluteX, int absoluteY){
+        this.gameMap = gameMap;
         this.charakter = charakter;
         this.buildableArrayList = buildableArrayList;
         System.out.println(charakter + " im buildable construktor");
