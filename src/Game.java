@@ -4,6 +4,7 @@ import processing.core.PImage;
 import processing.core.PVector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Game extends PApplet {
@@ -30,6 +31,7 @@ public class Game extends PApplet {
     boolean drawNew = true;
     Buildable buildable;
     ArrayList<Buildable> buildableArrayList = new ArrayList<>();
+    private Map<PVector, Buildable> buildableMap = new HashMap<>();
     PGraphics pg;
     private float absoluteCordsX = 400;
     private float absoluteCordsY = 400;
@@ -67,13 +69,13 @@ public class Game extends PApplet {
 
 
         System.out.println(charakter);
-        gameMap = new GameMap(this, tileArrayList, charakter, buildableArrayList, drawNew);
+        gameMap = new GameMap(this, tileArrayList, charakter, buildableMap, drawNew);
         HOUSE_IMAGE = loadImage("ressources/house.png");
         tileTest = new GrassTile(20,20);
 
 
 
-        pg = createGraphics(800,800);
+       // pg = createGraphics(800,800);
 
 
 
@@ -81,16 +83,19 @@ public class Game extends PApplet {
 
         }
          testfloat = gameMap.getTestFloat();
-
+        gameMap.getTileChangeMap().put(new PVector(0,0), new  Tile());
         gameMap.createTiles3();
 
         System.out.println(gameMap.getTileMap().size());
+
+        System.out.println(gameMap.getTileChangeMap());
         frameRate(30);
         background(0);
         loop();
     }
    @Override
     public void draw() {
+        updateCharakter();
         if(drawNewMap){
             gameMap.createTiles3();
             drawNewMap = false;
@@ -121,7 +126,10 @@ public class Game extends PApplet {
                        useImage = GRASS_TREE_TILE;
                    }
 
-
+                    if(tile == null){
+                       // image();
+                        continue;
+                    }
                    image(useImage, tile.getNOWREALLYABSOLUTEX() - (gameMap.absolutX * 20), tile.getNOWREALLYABSOLUTEY() - (gameMap.absoluteY * 20));
 
                    if (tile.getPositionY() > 800) {
@@ -205,7 +213,20 @@ public class Game extends PApplet {
 
 
     public void displayBuildable(){
-        for(Buildable buildable : buildableArrayList){
+        for(Map.Entry<PVector,Buildable> buildable : buildableMap.entrySet()){
+            if(buildable.getValue().getCordX() > charakter.getPosiX() - gameSizeX && buildable.getValue().getCordX()
+                    < charakter.getPosiX() + gameSizeX && buildable.getValue().getCordY()>
+                    charakter.getPosiY() - gameSizeY && buildable.getValue().getCordY() < charakter.getPosiY() + gameSizeY) {
+                //image(buildable.getImage(), buildable.getCordX(), buildable.getCordY());
+                image(buildable.getValue().getImage(), buildable.getValue().getCordX(), buildable.getValue().getCordY());
+                //
+
+
+
+            }
+        }
+
+ /*       for(Buildable buildable : buildableArrayList){
             if(buildable.getCordX() > charakter.getPosiX() - gameSizeX && buildable.getCordX() < charakter.getPosiX() + gameSizeX && buildable.getCordY()> charakter.getPosiY() - gameSizeY && buildable.getCordY() < charakter.getPosiY() + gameSizeY) {
                 //image(buildable.getImage(), buildable.getCordX(), buildable.getCordY());
                 image(buildable.getImage(), buildable.getCordX(), buildable.getCordY());
@@ -214,24 +235,29 @@ public class Game extends PApplet {
 
 
             }
-        }
+        } */
     }
     public void updateCharakter() {
 
-        Tile groundTile = tileArrayList.get(820);
+        Tile groundTile =gameMap.getTileMap().get(new PVector(charakter.getAbsoluteX(),charakter.getAbsoluteY()));
+        groundTile.setpImage(WATER_TILE);
+        image(groundTile.getpImage(),charakter.getPosiX(),charakter.getPosiY());
         if (groundTile instanceof GrassTile) {
             charakter.setGrass(true);
+            System.out.println("grass");
         } else {
             charakter.setGrass(false);
         }
         if (groundTile instanceof SandTile) {
             charakter.setSand(true);
+            System.out.println("sand");
         } else {
             charakter.setSand(false);
         }
 
         if (groundTile instanceof WaterTile) {
             charakter.setWater(true);
+            System.out.println("water");
         } else {
             charakter.setWater(false);
         }
@@ -240,12 +266,15 @@ public class Game extends PApplet {
     public void moveTile(){
 
         if(canMoveUp) {
+            System.out.println("bdwadwiadjiwadjiawiojdjiowajdjwajoid");
 
-            print("bdwadwiadjiwadjiawiojdjiowajdjwajoid");
 
                 gameMap.setCordY(gameMap.getCordY() -0.025F);
-            for (Buildable buildable : buildableArrayList){
-                buildable.setCordY(buildable.getCordY() +20);
+
+                  for (Map.Entry<PVector, Buildable> buildable : buildableMap.entrySet()){
+                    buildable.getValue().setCordY(buildable.getValue().getCordY() +20);
+      //      for (Buildable buildable : buildableArrayList){
+        //        buildable.setCordY(buildable.getCordY() +20);
 
             }
 
@@ -255,25 +284,32 @@ public class Game extends PApplet {
         if(canMoveDown) {
 
                 gameMap.setCordY(gameMap.getCordY() +0.025F);
-                for (Buildable buildable : buildableArrayList){
-                    buildable.setCordY(buildable.getCordY() -20);
+            for (Map.Entry<PVector, Buildable> buildable : buildableMap.entrySet()){
+                buildable.getValue().setCordY(buildable.getValue().getCordY() -20);
+                // for (Buildable buildable : buildableArrayList){
+                  //  buildable.setCordY(buildable.getCordY() -20);
                 }
 
 
 
         } if(canMoveLeft) {
         gameMap.setCordX(gameMap.getCordX() -0.025F);
-            for (Buildable buildable : buildableArrayList){
-                buildable.setCordX(buildable.getCordX() +20);
+
+            for (Map.Entry<PVector, Buildable> buildable : buildableMap.entrySet()){
+                buildable.getValue().setCordX(buildable.getValue().getCordX() +20);
+        //    for (Buildable buildable : buildableArrayList){
+          //      buildable.setCordX(buildable.getCordX() +20);
             }
 
 
         } if(canMoveRight) {
             gameMap.setCordX(gameMap.getCordX() +0.025F);
 
+            for (Map.Entry<PVector, Buildable> buildable : buildableMap.entrySet()){
+                buildable.getValue().setCordX(buildable.getValue().getCordX() -20);
 
-            for (Buildable buildable : buildableArrayList){
-                buildable.setCordX(buildable.getCordX() -20);
+       //     for (Buildable buildable : buildableArrayList){
+         //       buildable.setCordX(buildable.getCordX() -20);
             }
 
 
@@ -342,8 +378,8 @@ public class Game extends PApplet {
             if(key == 'q') {
 
 
-
-                buildableArrayList.add(new House(HOUSE_IMAGE, charakter.getPosiX()-40  , charakter.getPosiY() - 80, charakter.getAbsoluteX(), charakter.getAbsoluteY()));
+                buildableMap.put(new PVector(charakter.getPosiX()-40, charakter.getPosiY() - 80),new House(HOUSE_IMAGE, charakter.getPosiX()-40  , charakter.getPosiY() - 80, charakter.getAbsoluteX(), charakter.getAbsoluteY()));
+               // buildableArrayList.add(new House(HOUSE_IMAGE, charakter.getPosiX()-40  , charakter.getPosiY() - 80, charakter.getAbsoluteX(), charakter.getAbsoluteY()));
 
 
                 for (Buildable buildable : buildableArrayList) {

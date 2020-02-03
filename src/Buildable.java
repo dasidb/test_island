@@ -1,6 +1,9 @@
 import processing.core.PImage;
+import processing.core.PVector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Buildable {
 
@@ -11,6 +14,7 @@ public class Buildable {
     private GameMap gameMap;
     private Charakter charakter;
     private ArrayList<Buildable> buildableArrayList = new ArrayList<>();
+    //private Map<PVector, Buildable> buildableMap = new HashMap<>();
     private PImage HOUSE_IMAGE;
     private int absoluteX;
     private int absoluteY;
