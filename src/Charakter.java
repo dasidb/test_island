@@ -184,6 +184,10 @@ public class Charakter {
             }
         return true;
         }
+
+        public void chopTree(){
+
+        }
     }
 
 

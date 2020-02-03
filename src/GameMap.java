@@ -25,6 +25,7 @@ public class GameMap {
     Buildable buildable;
     Charakter charakter;
     ArrayList<Buildable> buildableArrayList;
+    Map<PVector, Buildable> buildableMap;
     int absolutX = 0;
     int absoluteY = 0;
     private boolean drawMove;
@@ -37,6 +38,7 @@ public class GameMap {
     ArrayList<Float> cordYList = new ArrayList<>();
     private final boolean IS_DIAGRAMM = false;
     private Map<PVector, Tile> tileMap = new HashMap<PVector,Tile>();
+    private Map<PVector, Tile> tileChangeMap = new HashMap<>();
 
 
     public Map<PVector, Tile> getTileMap() {
@@ -63,15 +65,21 @@ public class GameMap {
         this.cordY = cordY;
     }
 
+    public Map<PVector, Tile> getTileChangeMap() {
+        return tileChangeMap;
+    }
 
+    public void setTileChangeMap(Map<PVector, Tile> tileChangeMap) {
+        this.tileChangeMap = tileChangeMap;
+    }
 
-    public GameMap(PApplet pApplet, ArrayList<Tile> tileArrayList, Charakter charakter, ArrayList<Buildable> buildableArrayList, boolean drawMove){
+    public GameMap(PApplet pApplet, ArrayList<Tile> tileArrayList, Charakter charakter, Map<PVector, Buildable> buildableMap, boolean drawMove){
         this.pApplet = pApplet;
         this.tileArrayList = tileArrayList;
         cordsArrayList.add(cordXList);
         cordsArrayList.add(cordYList);
         this.charakter= charakter;
-        this.buildableArrayList = buildableArrayList;
+        this.buildableMap = buildableMap;
         this.drawMove = drawMove;
 
     }
@@ -297,37 +305,44 @@ if(pushedX == 40) {
                     for (int y = 0; y < 40; y++) {
 
                         for (int x = 0; x < 40; x++) {
-                            if (!tileMap.containsKey(new PVector(x + absolutX, y + absoluteY))) {
-                                float noiseInputX = (cordX + (float) x / 40F); //*noisescale ;
-                                float noiseInputY = (cordY + (float) y / 40F); //*noisescale ;
-                                float noise = pApplet.noise((noiseInputX * 2F), (noiseInputY * 2F))
-                                        + 0.5F * pApplet.noise(2F * noiseInputX, 2F * noiseInputY)
-                                        + 0.25F * pApplet.noise(3F * noiseInputX, 3F * noiseInputY);
+                            PVector tmpVec = new PVector(x + absolutX, y + absoluteY);
+                          //  System.out.println(tileMap.size());
+                            if (!tileChangeMap.containsKey(tmpVec)) {
+                                if (!tileMap.containsKey(tmpVec)) {
+                                    float noiseInputX = (cordX + (float) x / 40F); //*noisescale ;
+                                    float noiseInputY = (cordY + (float) y / 40F); //*noisescale ;
+                                    float noise = pApplet.noise((noiseInputX * 2F), (noiseInputY * 2F))
+                                            + 0.5F * pApplet.noise(2F * noiseInputX, 2F * noiseInputY)
+                                            + 0.25F * pApplet.noise(3F * noiseInputX, 3F * noiseInputY);
 
-                                int tempCordX = (x  + absolutX) * 20;
-                                int tempCordY = (y  + absoluteY) * 20;
-
-
-                                //     if(!cordXList.contains(cordX+x) && !cordYList.contains(cordY+y)) {
-
-
-                                if (noise < 0.76F) {
-                                    tileMap.put(new PVector(absolutX + x, absoluteY + y), new WaterTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+                                    int tempCordX = (x + absolutX) * 20;
+                                    int tempCordY = (y + absoluteY) * 20;
 
 
-                                } else if (noise < 0.8F) {
-                                    tileMap.put(new PVector(absolutX + x, absoluteY + y), new SandTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+                                    //     if(!cordXList.contains(cordX+x) && !cordYList.contains(cordY+y)) {
 
-                                } else if (noise >= 0.8F && noise < 1.1F) {
-                                    tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
 
-                                } else {
-                                    tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTreeTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+                                    if (noise < 0.76F) {
+                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new WaterTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
 
+
+                                    } else if (noise < 0.8F) {
+                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new SandTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+
+                                    } else if (noise >= 0.8F && noise < 1.1F) {
+                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+
+                                    } else {
+                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTreeTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+
+
+                                    }
 
                                 }
+                            }else{
 
                             }
+
                         }
                     }
                     return tileMap;
@@ -422,9 +437,12 @@ if(pushedX == 40) {
         drawMove = true;
         absolutX += 4;
         charakter.setPosiX(charakter.getPosiX() - 80);
-        for (Buildable buildable : buildableArrayList) {
-            buildable.setCordX(buildable.getCordX() - 80);
+        for(Map.Entry<PVector, Buildable> buildable : buildableMap.entrySet()){
+            buildable.getValue().setCordX(buildable.getValue().getCordX() - 80);
         }
+      //  for (Buildable buildable : buildableArrayList) {
+        //    buildable.setCordX(buildable.getCordX() - 80);
+        //}
 
     }
     public void moveLeft(){
@@ -434,9 +452,12 @@ if(pushedX == 40) {
         drawMove = true;
         absolutX -= 4;
         charakter.setPosiX(charakter.getPosiX() + 80);
-        for (Buildable buildable : buildableArrayList) {
-            buildable.setCordX(buildable.getCordX() + 80);
+        for(Map.Entry<PVector, Buildable> buildable : buildableMap.entrySet()){
+            buildable.getValue().setCordX(buildable.getValue().getCordX() + 80);
         }
+        //for (Buildable buildable : buildableArrayList) {
+        //    buildable.setCordX(buildable.getCordX() + 80);
+       // }
     }
     public void moveUp(){
 
@@ -445,9 +466,12 @@ if(pushedX == 40) {
         drawMove = true;
         absoluteY -= 4;
         charakter.setPosiY(charakter.getPosiY() + 80);
-        for (Buildable buildable : buildableArrayList) {
-            buildable.setCordY(buildable.getCordY() + 80);
+        for(Map.Entry<PVector, Buildable> buildable : buildableMap.entrySet()){
+            buildable.getValue().setCordY(buildable.getValue().getCordY() + 80);
         }
+    //    for (Buildable buildable : buildableArrayList) {
+         //   buildable.setCordY(buildable.getCordY() + 80);
+      //  }
     }
     public void moveDown(){
 
@@ -456,9 +480,12 @@ if(pushedX == 40) {
         drawMove = true;
         absoluteY += 4;
         charakter.setPosiY(charakter.getPosiY() - 80);
-        for (Buildable buildable : buildableArrayList) {
-            buildable.setCordY(buildable.getCordY() - 80);
+        for(Map.Entry<PVector, Buildable> buildable : buildableMap.entrySet()){
+            buildable.getValue().setCordY(buildable.getValue().getCordY() - 80);
         }
+     //   for (Buildable buildable : buildableArrayList) {
+     //       buildable.setCordY(buildable.getCordY() - 80);
+     //   }
     }
 
                 }
