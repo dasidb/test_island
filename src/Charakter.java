@@ -1,5 +1,6 @@
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PVector;
 
 public class Charakter {
     private PImage charakterImage;
@@ -11,6 +12,7 @@ public class Charakter {
     private boolean isSand;
     private boolean isGrass;
     private boolean isWater;
+    private boolean isGrassTree;
     private boolean moveDown;
     private boolean moveUp;
     private boolean moveLeft;
@@ -19,6 +21,15 @@ public class Charakter {
     private int absoluteX;
     private int absoluteY;
     private Game game;
+    private PVector mapPosi = new PVector(20,20);
+
+    public boolean isGrassTree() {
+        return isGrassTree;
+    }
+
+    public void setGrassTree(boolean grassTree) {
+        isGrassTree = grassTree;
+    }
 
     public int getAbsoluteX() {
         return absoluteX;
@@ -141,12 +152,21 @@ public class Charakter {
         this.health = health;
     }
 
+    public PVector getMapPosi() {
+        return mapPosi;
+    }
+
+    public void setMapPosi(PVector mapPosi) {
+        this.mapPosi = mapPosi;
+    }
+
     public Charakter(int posiX, int posiY, Game game) {
     this.posiX = posiX;
     this.posiY = posiY;
     absoluteX = 19;
     absoluteY = 19;
     this.game = game;
+
     }
 
 
@@ -160,6 +180,7 @@ public class Charakter {
             setPosiY(getPosiY() - 20);
             canMove = 0;
             absoluteY -=1;
+            mapPosi.y -= 1;
 
         }
         if (moveDown && canMove >50) {
@@ -167,18 +188,21 @@ public class Charakter {
             setPosiY(getPosiY() + 20);
             canMove = 0;
             absoluteY += 1;
+            mapPosi.y += 1;
         }
         if (moveLeft && canMove >50) {
 
             setPosiX(getPosiX() - 20);
             canMove = 0;
             absoluteX -= 1;
+            mapPosi.x -= 1;
         }
         if (moveRigt && canMove >50) {
 
             setPosiX(getPosiX() + 20);
             canMove = 0;
             absoluteX += 1;
+            mapPosi.x += 1;
 
 
             }

@@ -237,16 +237,29 @@ public class Game extends PApplet {
             }
         } */
     }
+
+    // if cases to check on what tile the character stays
     public void updateCharakter() {
 
-        Tile groundTile =gameMap.getTileMap().get(new PVector(charakter.getAbsoluteX(),charakter.getAbsoluteY()));
+        Tile groundTile =gameMap.getTileMap().get(charakter.getMapPosi());
         groundTile.setpImage(WATER_TILE);
-        image(groundTile.getpImage(),charakter.getPosiX(),charakter.getPosiY());
-        if (groundTile instanceof GrassTile) {
-            charakter.setGrass(true);
-            System.out.println("grass");
+
+
+
+        if(groundTile instanceof  GrassTile){
+            if (groundTile instanceof GrassTreeTile) {
+                charakter.setGrassTree(true);
+
+            }else {
+                charakter.setGrass(true);
+                System.out.println("grass");
+            }
+
+
         } else {
             charakter.setGrass(false);
+            charakter.setGrassTree(false);
+
         }
         if (groundTile instanceof SandTile) {
             charakter.setSand(true);
