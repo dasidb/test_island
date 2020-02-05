@@ -2,6 +2,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
+import java.util.Map;
+
 public class Charakter {
     private PImage charakterImage;
     private float posiX;
@@ -22,6 +24,7 @@ public class Charakter {
     private int absoluteY;
     private Game game;
     private PVector mapPosi = new PVector(20,20);
+    private Map<PVector, Buildable> buildableMap;
 
     public boolean isGrassTree() {
         return isGrassTree;
@@ -160,13 +163,13 @@ public class Charakter {
         this.mapPosi = mapPosi;
     }
 
-    public Charakter(int posiX, int posiY, Game game) {
+    public Charakter(int posiX, int posiY, Game game, Map<PVector,Buildable> buildableMap) {
     this.posiX = posiX;
     this.posiY = posiY;
     absoluteX = 19;
     absoluteY = 19;
     this.game = game;
-
+    this.buildableMap = buildableMap;
     }
 
 
@@ -209,7 +212,8 @@ public class Charakter {
         return true;
         }
 
-        public void chopTree(){
+        public void chopTree(PImage grasImg){
+        game.getGameMap().getTileMap().get(mapPosi).setpImage(grasImg);
 
         }
     }

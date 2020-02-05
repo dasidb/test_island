@@ -43,11 +43,26 @@ public class Game extends PApplet {
     boolean drawNewMap = true;
 
 
+    public GameMap getGameMap() {
+        return gameMap;
+    }
 
+    public void setGameMap(GameMap gameMap) {
+        this.gameMap = gameMap;
+    }
 
     public static void main(String[] args){
         PApplet.main(Game.class, args);
     }
+
+    public Map<PVector, Buildable> getBuildableMap() {
+        return buildableMap;
+    }
+
+    public void setBuildableMap(Map<PVector, Buildable> buildableMap) {
+        this.buildableMap = buildableMap;
+    }
+
     @Override
     public void settings(){
         super.settings();
@@ -65,7 +80,7 @@ public class Game extends PApplet {
 
         tile = new Tile();
         System.out.println(charakter+ "vor erstellung");
-        charakter= new Charakter(400,400, this);
+        charakter= new Charakter(400,400, this, buildableMap);
 
 
         System.out.println(charakter);
@@ -359,6 +374,14 @@ public class Game extends PApplet {
     public void keyPressed(){
         if(keyPressed){
             drawNew = true;
+
+
+            // TODO: 05.02.2020 aktuell null pointer mal gucken woran das liegt 
+            if(key == 'f') {
+                if(charakter.isGrassTree()) {
+                    charakter.chopTree(GRAS_TILE);
+                }
+            }
 
             if(key == 'w') {
             charakter.setMoveUp(true);
