@@ -315,25 +315,29 @@ if(pushedX == 40) {
                                             + 0.5F * pApplet.noise(2F * noiseInputX, 2F * noiseInputY)
                                             + 0.25F * pApplet.noise(3F * noiseInputX, 3F * noiseInputY);
 
-                                    int tempCordX = (x + absolutX) * 20;
-                                    int tempCordY = (y + absoluteY) * 20;
+                                    float tempCordX = (x + absolutX) * 20;
+                                    float tempCordY = (y + absoluteY) * 20;
 
 
                                     //     if(!cordXList.contains(cordX+x) && !cordYList.contains(cordY+y)) {
 
 
                                     if (noise < 0.76F) {
-                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new WaterTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new WaterTile(x * 20F, y * 20F,  tempCordX, tempCordY));
 
 
                                     } else if (noise < 0.8F) {
-                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new SandTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new SandTile(x * 20F, y * 20F, tempCordX, tempCordY));
+                                        System.out.println(x * 20F + "Position X" + "\n" +
+
+                                       tempCordX + "tempcord X" );
 
                                     } else if (noise >= 0.8F && noise < 1.1F) {
-                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+                                    //    tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTile(x * 20F, y * 20F, tempCordX, tempCordY));
 
                                     } else {
-                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTreeTile(x * 20F, y * 20F, cordX + x, cordY + y, tempCordX, tempCordY));
+                                        tileMap.put(new PVector(absolutX + x, absoluteY + y), new GrassTreeTile(x * 20F, y * 20F,  tempCordX, tempCordY));
 
 
                                     }

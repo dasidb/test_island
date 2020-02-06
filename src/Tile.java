@@ -12,10 +12,10 @@ public class Tile {
     private String imageLink;
     private  float COORDINATEX;
     private  float COORDINATEY;
-    private int NOWREALLYABSOLUTEX;
-    private int NOWREALLYABSOLUTEY;
+    private float NOWREALLYABSOLUTEX;
+    private float NOWREALLYABSOLUTEY;
 
-    public int getNOWREALLYABSOLUTEX() {
+    public float getNOWREALLYABSOLUTEX() {
         return NOWREALLYABSOLUTEX;
     }
 
@@ -23,7 +23,7 @@ public class Tile {
         this.NOWREALLYABSOLUTEX = NOWREALLYABSOLUTEX;
     }
 
-    public int getNOWREALLYABSOLUTEY() {
+    public float getNOWREALLYABSOLUTEY() {
         return NOWREALLYABSOLUTEY;
     }
 
@@ -79,6 +79,13 @@ public class Tile {
         this.pImage = new PImage();
         this.COORDINATEX = COORDINATEX;
         this.COORDINATEY = COORDINATEY;
+        this.NOWREALLYABSOLUTEX = NOWREALLYABSOLUTEX;
+        this.NOWREALLYABSOLUTEY = NOWREALLYABSOLUTEY;
+    }
+
+    public Tile(float positionX, float positionY, float NOWREALLYABSOLUTEX, float NOWREALLYABSOLUTEY){
+        this.positionX = positionX;
+        this.positionY = positionY;
         this.NOWREALLYABSOLUTEX = NOWREALLYABSOLUTEX;
         this.NOWREALLYABSOLUTEY = NOWREALLYABSOLUTEY;
     }

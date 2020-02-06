@@ -42,9 +42,25 @@ public class Game extends PApplet {
     //  r die up down bewegung das anpassen an die buildables
     boolean drawNewMap = true;
 
+    public boolean isDrawNew() {
+        return drawNew;
+    }
+
+    public void setDrawNew(boolean drawNew) {
+        this.drawNew = drawNew;
+    }
+
+    public boolean isDrawNewMap() {
+        return drawNewMap;
+    }
+
+    public void setDrawNewMap(boolean drawNewMap) {
+        this.drawNewMap = drawNewMap;
+    }
 
     public GameMap getGameMap() {
         return gameMap;
+
     }
 
     public void setGameMap(GameMap gameMap) {
@@ -113,6 +129,7 @@ public class Game extends PApplet {
         updateCharakter();
         if(drawNewMap){
             gameMap.createTiles3();
+            System.out.println("draw new");
             drawNewMap = false;
         }
 
@@ -120,12 +137,13 @@ public class Game extends PApplet {
            moveTile();
        }
        // TODO: 12/12/2019 die sachen müssen einen neuen aufruf bei bewegungen etc haben (draw)
-       if(drawNew || canMoveUp) {
+    //   if(drawNew || canMoveUp) {
 
-         System.out.println(gameMap.getTileMap().size());
+
 
     //       tileArrayList = gameMap.createTiles2();
        //    for (Tile tile : tileArrayList) {
+
            for(int x = gameMap.absolutX; x < gameMap.absolutX + 40; x++) {
                for (int y = gameMap.absoluteY; y < gameMap.absoluteY + 40; y++) {
 
@@ -159,7 +177,7 @@ public class Game extends PApplet {
            displayBuildable();
           drawNew = false;
 
-       }
+     //  }
 
        image(HERO_IMAGE, charakter.getPosiX(), charakter.getPosiY());
 
@@ -220,7 +238,7 @@ public class Game extends PApplet {
         }
        drawNewMap = gameMap.autoscroll();
         charakter.setCanMove(charakter.getCanMove() + 10);
-        collisionCheckTile();
+        //collisionCheckTile();
 
 
    }
@@ -267,7 +285,7 @@ public class Game extends PApplet {
 
             }else {
                 charakter.setGrass(true);
-                System.out.println("grass");
+
             }
 
 
@@ -278,14 +296,14 @@ public class Game extends PApplet {
         }
         if (groundTile instanceof SandTile) {
             charakter.setSand(true);
-            System.out.println("sand");
+
         } else {
             charakter.setSand(false);
         }
 
         if (groundTile instanceof WaterTile) {
             charakter.setWater(true);
-            System.out.println("water");
+
         } else {
             charakter.setWater(false);
         }
@@ -294,7 +312,7 @@ public class Game extends PApplet {
     public void moveTile(){
 
         if(canMoveUp) {
-            System.out.println("bdwadwiadjiwadjiawiojdjiowajdjwajoid");
+
 
 
                 gameMap.setCordY(gameMap.getCordY() -0.025F);

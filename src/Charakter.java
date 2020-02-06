@@ -213,8 +213,10 @@ public class Charakter {
         }
 
         public void chopTree(PImage grasImg){
-        game.getGameMap().getTileMap().get(mapPosi).setpImage(grasImg);
+        game.getGameMap().getTileMap().put(mapPosi, new GrassTile(mapPosi.x *20,mapPosi.y * 20, mapPosi.x*20, mapPosi.y * 20));
 
+        game.setDrawNewMap(true);
+        game.setDrawNew(true);
         }
     }
 

@@ -8,6 +8,15 @@ public class SandTile extends Tile {
         this.setImageLink("Ressources/sandTile.png");
 
     }
+
+    public SandTile(float positionX, float positionY, float absoluteX, float absoluteY){
+
+        super(positionX,positionY, absoluteX,absoluteY);
+        this.setImageLink("Ressources/sandTile.png");
+
+
+    }
+
     public SandTile(float positionX, float positionY,float CORDX, float CORDY, int absoluteX, int absoluteY){
 
         super(positionX,positionY,CORDX,CORDY,absoluteX ,absoluteY );
