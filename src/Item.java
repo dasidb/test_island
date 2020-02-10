@@ -12,6 +12,7 @@ public abstract class Item {
         this.name = name;
         this.type = type;
         this.maximumStackSize = maximumStackSize;
+
     }
 
     protected Item(int itemID, String name){
