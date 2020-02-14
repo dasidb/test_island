@@ -25,6 +25,7 @@ public class Charakter {
     private Game game;
     private PVector mapPosi = new PVector(20,20);
     private Map<PVector, Buildable> buildableMap;
+    private Inventory inventory;
 
     public boolean isGrassTree() {
         return isGrassTree;
@@ -163,13 +164,14 @@ public class Charakter {
         this.mapPosi = mapPosi;
     }
 
-    public Charakter(int posiX, int posiY, Game game, Map<PVector,Buildable> buildableMap) {
+    public Charakter(int posiX, int posiY, Game game, Map<PVector,Buildable> buildableMap, Inventory inventory) {
     this.posiX = posiX;
     this.posiY = posiY;
     absoluteX = 19;
     absoluteY = 19;
     this.game = game;
     this.buildableMap = buildableMap;
+    this.inventory = inventory;
     }
 
 
@@ -213,10 +215,21 @@ public class Charakter {
         }
 
         public void chopTree(PImage grasImg){
+        if(game.getItemMap().containsKey("wood")){
+            inventory.addItem(game.getItemMap().get("wood"),2);
+            }else{
+            game.getItemMap().put("wood", new Item(1,"wood", ItemType.CraftingMaterial,100));
+            inventory.addItem(new Item(1,"wood", ItemType.CraftingMaterial,100),2);
+        }
         game.getGameMap().getTileMap().put(mapPosi, new GrassTile(mapPosi.x *20,mapPosi.y * 20, mapPosi.x*20, mapPosi.y * 20));
 
         game.setDrawNewMap(true);
         game.setDrawNew(true);
+            // TODO: 2/14/2020 lädt aktuell ein neues item anstatt das alte zu verwenden, bug f gedrückthalten (feld zählt noch als treetile?
+        System.out.println(inventory.getPlayerItemList().size() + " anzahl items in der liste");
+        System.out.println(inventory.getPlayerItemList().get(0).getCount()+ " welches item");
+
+
         }
     }
 

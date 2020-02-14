@@ -1,5 +1,5 @@
 // an Item contains an unique id a name and a stacksize
-public abstract class Item {
+public  class Item {
 
     public int itemID;
     public String name;
@@ -20,6 +20,8 @@ public abstract class Item {
         this.name = name;
         maximumStackSize = 1;
     }
+
+
 }
 
 

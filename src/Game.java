@@ -5,6 +5,7 @@ import processing.core.PVector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Game extends PApplet {
@@ -41,6 +42,15 @@ public class Game extends PApplet {
     // TODO: 08.08.2019 absoulute cords einbauen diese ummünzen fü
     //  r die up down bewegung das anpassen an die buildables
     boolean drawNewMap = true;
+    private Map<String, Item> itemMap = new HashMap();
+
+    public Map<String, Item> getItemMap() {
+        return itemMap;
+    }
+
+    public void setItemMap(Map<String, Item> itemMap) {
+        this.itemMap = itemMap;
+    }
 
     public boolean isDrawNew() {
         return drawNew;
@@ -96,7 +106,9 @@ public class Game extends PApplet {
 
         tile = new Tile();
         System.out.println(charakter+ "vor erstellung");
-        charakter= new Charakter(400,400, this, buildableMap);
+        Inventory inventory = new Inventory();
+        charakter= new Charakter(400,400, this, buildableMap, inventory);
+
 
 
         System.out.println(charakter);

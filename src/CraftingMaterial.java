@@ -1,6 +1,6 @@
-public class CraftingMaterial extends  Item {
+// public class CraftingMaterial extends  Item {
 
-    public CraftingMaterial(int itemID, String name){
-        super(itemID, name, 100);
-    }
-}
+  //  public CraftingMaterial(int itemID, String name){
+    //    super(itemID, name, 100);
+   // }
+//}
