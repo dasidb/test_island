@@ -1,3 +1,5 @@
+
+// Enums for the item to build later easily functions for the items
 public enum ItemType {
     Weapon(0),
     Tool(10),

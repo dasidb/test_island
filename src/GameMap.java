@@ -297,6 +297,7 @@ if(pushedX == 40) {
 
 
 
+                // third attemp to create a GameMap this time its created with an Hashmap to easily access and change specific tiles
 
 
                 public Map<PVector, Tile> createTiles3(){
@@ -307,6 +308,8 @@ if(pushedX == 40) {
                         for (int x = 0; x < 40; x++) {
                             PVector tmpVec = new PVector(x + absolutX, y + absoluteY);
                           //  System.out.println(tileMap.size());
+
+                            //Noise function to create a "random" map
                             if (!tileChangeMap.containsKey(tmpVec)) {
                                 if (!tileMap.containsKey(tmpVec)) {
                                     float noiseInputX = (cordX + (float) x / 40F); //*noisescale ;
@@ -321,6 +324,7 @@ if(pushedX == 40) {
 
                                     //     if(!cordXList.contains(cordX+x) && !cordYList.contains(cordY+y)) {
 
+                                    //Creates tiles regarding to the value of the Noise Function
 
                                     if (noise < 0.76F) {
                                         tileMap.put(new PVector(absolutX + x, absoluteY + y), new WaterTile(x * 20F, y * 20F,  tempCordX, tempCordY));
@@ -412,6 +416,7 @@ if(pushedX == 40) {
                     return tileArrayList;
                 }
 
+                // scrolls the map depending on the Charakters position (sets the Boolean in the Game for drawing a new map)
                 public boolean autoscroll(){
 
                     if(charakter.getPosiX() == 600){

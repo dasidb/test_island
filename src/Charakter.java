@@ -176,7 +176,7 @@ public class Charakter {
 
 
 
-
+    //Movements for the Character
     public boolean charakterMove() {
 
 
@@ -214,12 +214,13 @@ public class Charakter {
         return true;
         }
 
-        public void chopTree(PImage grasImg){
+        // chops a tree and adds an wood item to the Players inventory
+        public void chopTree(){
         if(game.getItemMap().containsKey("wood")){
             inventory.addItem(game.getItemMap().get("wood"),2);
             }else{
             game.getItemMap().put("wood", new Item(1,"wood", ItemType.CraftingMaterial,100));
-            inventory.addItem(new Item(1,"wood", ItemType.CraftingMaterial,100),2);
+            inventory.addItem(game.getItemMap().get("wood"),2);
         }
         game.getGameMap().getTileMap().put(mapPosi, new GrassTile(mapPosi.x *20,mapPosi.y * 20, mapPosi.x*20, mapPosi.y * 20));
 
@@ -228,6 +229,8 @@ public class Charakter {
             // TODO: 2/14/2020 lädt aktuell ein neues item anstatt das alte zu verwenden, bug f gedrückthalten (feld zählt noch als treetile?
         System.out.println(inventory.getPlayerItemList().size() + " anzahl items in der liste");
         System.out.println(inventory.getPlayerItemList().get(0).getCount()+ " welches item");
+        setGrassTree(false);
+
 
 
         }

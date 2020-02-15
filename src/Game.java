@@ -3,6 +3,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 
+import javax.security.sasl.SaslServer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ public class Game extends PApplet {
     private PImage HOUSE_IMAGE;
     private PImage GRASS_TREE_TILE;
     private int canMove = 0;
+    boolean drawInventory;
     boolean canMoveUp;
     boolean canMoveDown;
     boolean canMoveLeft;
@@ -43,6 +45,7 @@ public class Game extends PApplet {
     //  r die up down bewegung das anpassen an die buildables
     boolean drawNewMap = true;
     private Map<String, Item> itemMap = new HashMap();
+    private Inventory inventory;
 
     public Map<String, Item> getItemMap() {
         return itemMap;
@@ -96,6 +99,8 @@ public class Game extends PApplet {
         size(gameSizeX, gameSizeY);
 
     }
+
+    // loads a lot of stuff creates most of the needed objects
     @Override
     public void setup(){
         super.setup();
@@ -106,7 +111,7 @@ public class Game extends PApplet {
 
         tile = new Tile();
         System.out.println(charakter+ "vor erstellung");
-        Inventory inventory = new Inventory();
+        inventory = new Inventory(this);
         charakter= new Charakter(400,400, this, buildableMap, inventory);
 
 
@@ -139,6 +144,8 @@ public class Game extends PApplet {
    @Override
     public void draw() {
         updateCharakter();
+
+        // only draws the new map if its necessary eg. Charakter movement, tree choped etc.
         if(drawNewMap){
             gameMap.createTiles3();
             System.out.println("draw new");
@@ -156,6 +163,8 @@ public class Game extends PApplet {
     //       tileArrayList = gameMap.createTiles2();
        //    for (Tile tile : tileArrayList) {
 
+
+       // draws the whole GameMap sets which image will get used in regards of the tile type
            for(int x = gameMap.absolutX; x < gameMap.absolutX + 40; x++) {
                for (int y = gameMap.absoluteY; y < gameMap.absoluteY + 40; y++) {
 
@@ -182,6 +191,7 @@ public class Game extends PApplet {
 
                    }
                }
+
 
 
 
@@ -248,15 +258,21 @@ public class Game extends PApplet {
 
 
         }
+        // if character moves to the borders the map gets drawn new
        drawNewMap = gameMap.autoscroll();
         charakter.setCanMove(charakter.getCanMove() + 10);
-        //collisionCheckTile();
+
+
+       // draws the inventory
+       if(drawInventory){
+           inventory.drawInventory();
+       }
 
 
    }
 
 
-
+    // displays all buildable objects if theire are on the screen if they move further they wont be displayed
     public void displayBuildable(){
         for(Map.Entry<PVector,Buildable> buildable : buildableMap.entrySet()){
             if(buildable.getValue().getCordX() > charakter.getPosiX() - gameSizeX && buildable.getValue().getCordX()
@@ -283,7 +299,8 @@ public class Game extends PApplet {
         } */
     }
 
-    // if cases to check on what tile the character stays
+    // if cases to check on what tile the character stays needed for different interactions like choptree
+    // needs to be corrected in case of grass + grasstree
     public void updateCharakter() {
 
         Tile groundTile =gameMap.getTileMap().get(charakter.getMapPosi());
@@ -321,6 +338,8 @@ public class Game extends PApplet {
         }
 
     }
+
+    // Moves the Tiles changes theire cordinates for correct display
     public void moveTile(){
 
         if(canMoveUp) {
@@ -375,7 +394,7 @@ public class Game extends PApplet {
     }
 
 
-
+    // remove the tiles from the Array list (legecy right now uses a hashmap)
     public void removeTile(){
 
 
@@ -388,6 +407,7 @@ public class Game extends PApplet {
         tileRemoveArrayList= new ArrayList<>();
     }
 
+    // loads the tile images
     public void tilesImage(){
         WATER_TILE = loadImage("Ressources/waterTile.png");
         GRAS_TILE = loadImage("Ressources/grassTile.png");
@@ -406,11 +426,15 @@ public class Game extends PApplet {
             drawNew = true;
 
 
-            // TODO: 05.02.2020 aktuell null pointer mal gucken woran das liegt 
+            // chops the tree adds an item to the inventory maybe set as universal key for interaction
             if(key == 'f') {
                 if(charakter.isGrassTree()) {
-                    charakter.chopTree(GRAS_TILE);
+                    charakter.chopTree();
                 }
+            }
+            // displays the inventory
+            if(key == 'i'){
+            drawInventory = !drawInventory;
             }
 
             if(key == 'w') {
@@ -434,6 +458,8 @@ public class Game extends PApplet {
 
                 canMove = 0;
             }
+
+            // Changes the counter for build an objekt ("itterates through the buildable list)
             if(key == 'e'){
                 buildCounter --;
             }
@@ -441,6 +467,7 @@ public class Game extends PApplet {
                 buildCounter ++;
             }
 
+            // builds the object from the buildable list
             if(key == 'q') {
 
 
@@ -496,6 +523,8 @@ public class Game extends PApplet {
         }
 
     }
+
+    // not necessary right now
     public void collisionCheckTile(){
         int relativX = (int) charakter.getPosiX();
         int relativY = (int) charakter.getPosiY();
